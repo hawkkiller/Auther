@@ -6,7 +6,7 @@
 version: 2
 updates:
   - package-ecosystem: "pub" # See documentation for possible values
-    directory: "/" # Location of package manifests
+    directory: "/client" # Location of package manifests
     schedule:
       interval: "weekly"
     pull-request-branch-name:
@@ -14,3 +14,13 @@ updates:
     target-branch: "master"
     reviewers:
       - "hawkkiller"
+  - package-ecosystem: "pub" # See documentation for possible values
+    directory: "/server" # Location of package manifests
+    schedule:
+      interval: "weekly"
+    pull-request-branch-name:
+      separator: /
+    target-branch: "master"
+    reviewers:
+      - "hawkkiller"
+  
