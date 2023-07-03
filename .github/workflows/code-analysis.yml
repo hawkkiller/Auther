@@ -13,4 +13,4 @@ jobs:
   flutter_package:
     uses: VeryGoodOpenSource/very_good_workflows/.github/workflows/flutter_package.yml@v1
     with:
-      working_directory: "/client"
+      working_directory: "client"
