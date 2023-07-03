@@ -1,14 +1,17 @@
-name: "Code Analysis"
+name: "Client Code Analysis"
 
 on:
   push:
     branches: [main]
+    paths: ["client/**"]
 
   pull_request:
     branches: [main]
+    paths: ["client/**"]
 
   workflow_dispatch:
 
+# run if files under /client changed
 jobs:
   flutter_package:
     uses: VeryGoodOpenSource/very_good_workflows/.github/workflows/flutter_package.yml@v1
