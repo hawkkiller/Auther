@@ -1,6 +1,8 @@
 import 'dart:async';
 
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:sizzle_starter/src/feature/authentication/data/auth_data_provider.dart';
+import 'package:sizzle_starter/src/feature/authentication/data/auth_repository.dart';
 import 'package:sizzle_starter/src/feature/initialization/model/dependencies.dart';
 import 'package:sizzle_starter/src/feature/initialization/model/initialization_progress.dart';
 
@@ -15,6 +17,15 @@ mixin InitializationSteps {
     'Shared Preferences': (progress) async {
       final sharedPreferences = await SharedPreferences.getInstance();
       progress.dependencies.sharedPreferences = sharedPreferences;
+    },
+    'Auth Repository': (progress) {
+      final authRepository = AuthRepositoryImpl(
+        authDataProvider: AuthDataProviderImpl(
+          baseUrl: progress.environmentStore.baseUrl,
+          sharedPreferences: progress.dependencies.sharedPreferences,
+        ),
+      );
+      progress.dependencies.authRepository = authRepository;
     },
   };
 }
