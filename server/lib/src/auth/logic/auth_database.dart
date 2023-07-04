@@ -8,6 +8,12 @@ abstract interface class AuthDatabase {
     required String password,
     required String email,
   });
+
+  /// Returns the user id if verifyCredentials was successful.
+  Future<int> verifyCredentials({
+    required String email,
+    required String password,
+  });
 }
 
 final class AuthDatabaseImpl implements AuthDatabase {
@@ -27,19 +33,46 @@ final class AuthDatabaseImpl implements AuthDatabase {
           .getSingleOrNull();
 
       if (userExists != null) {
-        throw AuthException$UserExists();
+        throw AuthException$UserNotFound();
       }
 
-      final userId = await _database.into(_database.userTbl).insert(
+      final user = await _database.into(_database.userTbl).insertReturning(
             UserTblCompanion.insert(
               username: username,
               password: password,
               email: email,
             ),
           );
-      return userId;
+      return user.id;
     } on AuthException {
       rethrow;
+    } on Object catch (e, stackTrace) {
+      Error.throwWithStackTrace(
+        AuthException$UnknownDatabaseError(e),
+        stackTrace,
+      );
+    }
+  }
+
+  @override
+  Future<int> verifyCredentials({
+    required String email,
+    required String password,
+  }) async {
+    try {
+      final user = await (_database.select(_database.userTbl)
+            ..where((tbl) => tbl.email.equals(email)))
+          .getSingle();
+
+      if (user.password != password) {
+        throw AuthException$UserNotFound();
+      }
+
+      return user.id;
+    } on AuthException {
+      rethrow;
+    } on StateError {
+      throw AuthException$UserNotFound();
     } on Object catch (e, stackTrace) {
       Error.throwWithStackTrace(
         AuthException$UnknownDatabaseError(e),

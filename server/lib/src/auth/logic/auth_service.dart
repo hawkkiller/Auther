@@ -8,6 +8,13 @@ abstract interface class AuthService {
     required String password,
     required String email,
   });
+
+  Future<TokenPair> signIn({
+    required String email,
+    required String password,
+  });
+
+  TokenPair refresh(String refreshToken);
 }
 
 final class AuthServiceImpl implements AuthService {
@@ -35,6 +42,26 @@ final class AuthServiceImpl implements AuthService {
       password: password,
       email: email,
     );
+
+    return _jwtProvider.createTokenPair(userId);
+  }
+
+  @override
+  Future<TokenPair> signIn({
+    required String email,
+    required String password,
+  }) async {
+    final userId = await _authDatabase.verifyCredentials(
+      email: email,
+      password: password,
+    );
+
+    return _jwtProvider.createTokenPair(userId);
+  }
+
+  @override
+  TokenPair refresh(String refreshToken) {
+    final userId = _jwtProvider.verifyRefreshToken(refreshToken);
 
     return _jwtProvider.createTokenPair(userId);
   }

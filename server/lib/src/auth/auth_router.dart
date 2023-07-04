@@ -11,7 +11,40 @@ import 'package:shelf_router/shelf_router.dart';
 class AuthRouter {
   AuthRouter();
 
-  Handler createRouter() => Router()..post('/signup', _signUp);
+  Handler createRouter() => Router()
+    ..post('/signup', _signUp)
+    ..post('/signin', _signIn)
+    ..get('/refresh', _refresh);
+
+  Future<Response> _refresh(Request request) async {
+
+    final refreshToken = request.url.queryParameters['refreshToken'];
+
+    try {
+      if (refreshToken != null) {
+        final pair = request.auth.refresh(refreshToken);
+
+        return AppResponse.ok(
+          statusCode: 200,
+          body: {
+            'accessToken': pair.accessToken,
+            'refreshToken': pair.refreshToken,
+          },
+        );
+      }
+    } on AuthException catch (e) {
+      return AppResponse.error(
+        e.message.toString(),
+        errorCode: e.errorCode,
+      );
+    }
+
+    return AppResponse.error(
+      'Invalid body',
+      errorCode: ErrorCode.invalidBody,
+    );
+  }
+
 
   Future<Response> _signUp(Request request) async {
     final body = await request.readAsString().then(jsonDecode);
@@ -41,7 +74,44 @@ class AuthRouter {
       return AppResponse.error(
         e.message.toString(),
         errorCode: e.errorCode,
-        statusCode: e is AuthException$UserExists ? 409 : 400,
+        statusCode: e is AuthException$UserNotFound ? 409 : 400,
+      );
+    }
+
+    return AppResponse.error(
+      'Invalid body',
+      errorCode: ErrorCode.invalidBody,
+    );
+  }
+
+
+
+  Future<Response> _signIn(Request request) async {
+    final body = await request.readAsString().then(jsonDecode);
+
+    try {
+      if (body
+          case {
+            'email': String email,
+            'password': String password,
+          }) {
+        final token = await request.auth.signIn(
+          email: email,
+          password: password,
+        );
+
+        return AppResponse.ok(
+          statusCode: 200,
+          body: {
+            'accessToken': token.accessToken,
+            'refreshToken': token.refreshToken,
+          },
+        );
+      }
+    } on AuthException catch (e) {
+      return AppResponse.error(
+        e.message.toString(),
+        errorCode: e.errorCode,
       );
     }
 
