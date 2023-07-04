@@ -4,13 +4,9 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:path/path.dart' as p;
+import 'package:shared/model.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:sizzle_starter/src/feature/authentication/model/user.dart';
-
-typedef TokenPair = ({
-  String accessToken,
-  String refreshToken,
-});
 
 abstract interface class AuthTokenAccessor {
   /// Returns the current [TokenPair].

@@ -1,3 +1,4 @@
+import 'package:shared/model.dart';
 import 'package:sizzle_starter/src/feature/authentication/data/auth_data_provider.dart';
 import 'package:sizzle_starter/src/feature/authentication/model/user.dart';
 
