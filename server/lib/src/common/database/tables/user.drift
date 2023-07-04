@@ -1,0 +1,11 @@
+-- SQLITE
+CREATE TABLE IF NOT EXISTS user_tbl (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    username TEXT NOT NULL,
+    password TEXT NOT NULL,
+    email TEXT NOT NULL UNIQUE,
+    -- created at
+    meta_created_at INTEGER NOT NULL DEFAULT (strftime('%s', 'now')),
+    -- updated at
+    meta_updated_at INTEGER NOT NULL DEFAULT (strftime('%s', 'now'))
+);

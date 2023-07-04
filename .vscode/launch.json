@@ -5,21 +5,14 @@
   "version": "0.2.0",
   "configurations": [
     {
-      "name": "sizzle_starter",
-      "request": "launch",
-      "type": "dart"
-    },
-    {
-      "name": "sizzle_starter (profile mode)",
-      "request": "launch",
+      "name": "Launch server",
       "type": "dart",
-      "flutterMode": "profile"
-    },
-    {
-      "name": "sizzle_starter (release mode)",
+      "program": "${workspaceFolder}/server/bin/server.dart",
       "request": "launch",
-      "type": "dart",
-      "flutterMode": "release"
+      "args": ["--debug"],
+      "env": {
+        "SECRET_KEY": "michaellazebny",
+      },
     }
   ]
 }

@@ -1,1 +1,1 @@
-export 'src/model/token_pair.dart';
+export 'src/model/index.dart';
