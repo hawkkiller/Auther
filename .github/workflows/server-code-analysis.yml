@@ -1,0 +1,23 @@
+name: "Server Code Analysis"
+
+on:
+  push:
+    branches: [main]
+    paths: ["server/**"]
+
+  pull_request:
+    branches: [main]
+    paths: ["server/**"]
+
+  workflow_dispatch:
+
+# run if files under /server changed
+jobs:
+  flutter_package:
+    uses: VeryGoodOpenSource/very_good_workflows/.github/workflows/dart_package.yml@v1
+    with:
+      working_directory: "server"
+      min_coverage: 0
+      setup: |
+        dart pub run build_runner build --delete-conflicting-outputs
+        

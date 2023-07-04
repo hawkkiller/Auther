@@ -1,0 +1,30 @@
+name: Server Releaser
+on:
+  push:
+    tags:
+      - 'v[0-9]+.[0-9]+.[0-9]+*'
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Setup Dart
+        uses: dart-lang/setup-dart@v1
+        with:
+          sdk: stable
+            
+      - name: Build docker image
+        run: docker build -t ${{ github.repository }}:${{ github.ref }} server/
+
+      - name: Login to DockerHub
+        uses: docker/login-action@v2
+        with:
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
+            
+      - name: Build and push
+        uses: docker/build-push-action@v4
+        with:
+         push: true
+         tags: ${{ github.repository }}:${{ github.ref }},${{ github.repository }}:latest
