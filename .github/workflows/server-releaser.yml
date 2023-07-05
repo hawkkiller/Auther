@@ -65,13 +65,13 @@ jobs:
             
       - name: Publish multi-arch image
         uses: docker/build-push-action@v3
+        working-directory: ./server
         with:
           sbom: true
           provenance: true
           push: true
           builder: ${{ steps.buildx.outputs.name }}
           context: .
-          file: ./server/Dockerfile
           build-args: |
             REVISION=${{ steps.prep.outputs.REVISION }}
           platforms: linux/amd64,linux/arm/v7,linux/arm64
