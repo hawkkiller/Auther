@@ -2,7 +2,10 @@ name: Server Releaser
 on:
   push:
     tags:
-      - '[0-9]+.[0-9]+.[0-9]+*'
+      - '*'
+    paths:
+      - 'charts/auther_server/**'
+      - 'server/**'
 permissions:
   contents: write # write releases
   id-token: write
@@ -66,7 +69,7 @@ jobs:
           tags: |
             type=raw,value=${{ steps.prep.outputs.VERSION }}
             type=raw,value=latest
-            
+
       - name: Publish multi-arch image
         uses: docker/build-push-action@v3
         with:
