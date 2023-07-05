@@ -5,8 +5,8 @@ FROM dart:stable AS build
 WORKDIR /app
 
 # Copy app source code (except anything in .dockerignore) and AOT compile app.
-COPY server .
-COPY shared .
+COPY server server
+COPY shared shared
 
 RUN cd server &&  \
     dart pub get &&  \
