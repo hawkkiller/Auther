@@ -2,7 +2,7 @@ name: Server Releaser
 on:
   push:
     tags:
-      - 'server/v[0-9]+.[0-9]+.[0-9]+*'
+      - 'v[0-9]+.[0-9]+.[0-9]+*'
   workflow_dispatch:
 permissions:
   contents: write # write releases
