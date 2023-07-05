@@ -2,8 +2,7 @@ name: Server Releaser
 on:
   push:
     tags:
-      - 'v[0-9]+.[0-9]+.[0-9]+*'
-  workflow_dispatch:
+      - '[0-9]+.[0-9]+.[0-9]+*'
 permissions:
   contents: write # write releases
   id-token: write
@@ -77,7 +76,6 @@ jobs:
           builder: ${{ steps.buildx.outputs.name }}
           context: .
           file: .server.Dockerfile
-
           build-args: |
             REVISION=${{ steps.prep.outputs.REVISION }}
           platforms: linux/amd64,linux/arm/v7,linux/arm64
