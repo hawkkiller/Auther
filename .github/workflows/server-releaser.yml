@@ -87,6 +87,6 @@ jobs:
 
       - name: Publish Helm chart to GHCR
         run: |
-          helm package charts/auther_server
-          helm push auther_server-${{ steps.prep.outputs.VERSION }}.tgz oci://ghcr.io/hawkkiller/charts
-          rm auther_server-${{ steps.prep.outputs.VERSION }}.tgz
+          helm package charts/auther
+          helm push auther-${{ steps.prep.outputs.VERSION }}.tgz oci://ghcr.io/hawkkiller/charts
+          rm auther-${{ steps.prep.outputs.VERSION }}.tgz
