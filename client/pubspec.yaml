@@ -80,7 +80,7 @@ dev_dependencies:
   # Codegen
   json_serializable: 6.7.0
   build_runner: 2.4.5
-  auto_route_generator: 7.1.1
+  auto_route_generator: 7.1.2
 
   # Utils
   flutter_launcher_icons: 0.13.1
