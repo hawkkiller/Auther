@@ -78,7 +78,7 @@ dev_dependencies:
     sdk: flutter
 
   # Codegen
-  json_serializable: 6.7.0
+  json_serializable: 6.7.1
   build_runner: 2.4.5
   auto_route_generator: 7.1.1
 
