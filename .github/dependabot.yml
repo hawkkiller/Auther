@@ -11,7 +11,7 @@ updates:
       interval: "weekly"
     pull-request-branch-name:
       separator: /
-    target-branch: "master"
+    target-branch: "main"
     reviewers:
       - "hawkkiller"
   - package-ecosystem: "pub" # See documentation for possible values
@@ -20,7 +20,7 @@ updates:
       interval: "weekly"
     pull-request-branch-name:
       separator: /
-    target-branch: "master"
+    target-branch: "main"
     reviewers:
       - "hawkkiller"
   
