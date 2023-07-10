@@ -34,7 +34,8 @@ spec:
           image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
           imagePullPolicy: {{ .Values.image.pullPolicy }}
           env:
-            - valueFrom:
+            - name: SECRET_KEY
+              valueFrom:
                 secretKeyRef:
                   name: {{ .Values.secret.ref }}
                   key: {{ .Values.secret.keys.secretKey }}
