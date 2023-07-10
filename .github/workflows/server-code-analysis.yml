@@ -19,5 +19,5 @@ jobs:
       working_directory: "server"
       min_coverage: 0
       setup: |
-        dart pub run build_runner build --delete-conflicting-outputs
+        dart run build_runner build --delete-conflicting-outputs
         

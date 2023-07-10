@@ -17,7 +17,6 @@ class AuthRouter {
     ..get('/refresh', _refresh);
 
   Future<Response> _refresh(Request request) async {
-
     final refreshToken = request.url.queryParameters['refreshToken'];
 
     try {
@@ -44,7 +43,6 @@ class AuthRouter {
       errorCode: ErrorCode.invalidBody,
     );
   }
-
 
   Future<Response> _signUp(Request request) async {
     final body = await request.readAsString().then(jsonDecode);
@@ -83,8 +81,6 @@ class AuthRouter {
       errorCode: ErrorCode.invalidBody,
     );
   }
-
-
 
   Future<Response> _signIn(Request request) async {
     final body = await request.readAsString().then(jsonDecode);
