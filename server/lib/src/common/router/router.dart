@@ -16,10 +16,20 @@ class ApiRouter {
     final rootRouter = Router(notFoundHandler: _$notFound);
 
     rootRouter.mount('/api/auth/', authRouter.createRouter());
+    rootRouter.get('/healthz', _$healthz);
 
     return rootRouter;
   }
 }
+
+Response _$healthz(Request request) => Response.ok(
+      jsonEncode(<String, Object?>{
+        'status': 'ok',
+      }),
+      headers: <String, String>{
+        'Content-Type': ContentType.json.value,
+      },
+    );
 
 Response _$notFound(Request request) => Response.notFound(
       jsonEncode(<String, Object?>{
