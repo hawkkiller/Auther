@@ -42,7 +42,7 @@ dependencies:
   firebase_core: 2.14.0
 
   # Persisting
-  shared_preferences: 2.1.2
+  shared_preferences: 2.2.0
 
   # Codegen annotations
   json_annotation: 4.8.1
