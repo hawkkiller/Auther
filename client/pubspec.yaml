@@ -57,7 +57,7 @@ dependencies:
 
   # Utils
   pure: 0.2.0
-  platform_info: 4.0.0
+  platform_info: 4.0.2
   bloc_concurrency: 0.2.2
   path: ^1.8.3
   path_provider: ^2.0.15
