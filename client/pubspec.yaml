@@ -79,7 +79,7 @@ dev_dependencies:
 
   # Codegen
   json_serializable: 6.7.1
-  build_runner: 2.4.5
+  build_runner: 2.4.6
   auto_route_generator: 7.2.0
 
   # Utils
