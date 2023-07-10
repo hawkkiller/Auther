@@ -38,7 +38,7 @@ dependencies:
   http_interceptor: 2.0.0-beta.7
 
   # Firebase
-  firebase_analytics: 10.4.2
+  firebase_analytics: 10.4.3
   firebase_core: 2.14.0
 
   # Persisting
