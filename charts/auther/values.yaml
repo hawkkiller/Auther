@@ -4,6 +4,11 @@
 
 replicaCount: 1
 
+secret:
+  ref: "auther-secret"
+  keys:
+    secretKey: "SECRET_KEY"
+
 image:
   repository: michaellazebny/auther
   pullPolicy: IfNotPresent
