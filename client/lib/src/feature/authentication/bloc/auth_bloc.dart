@@ -235,22 +235,10 @@ abstract base class _$AuthEventBase {
 
 class AuthBloc extends Bloc<AuthEvent, AuthState> with SetStateMixin {
   AuthBloc(this._authRepository) : super(const AuthState$Idle()) {
-    _authRepository.userStream.listen((user) {
-      if (user == null) {
-        setState(
-          const AuthState.idle(
-            message: 'User is not authenticated',
-          ),
-        );
-      } else {
-        setState(
-          AuthState.idle(
-            user: user,
-            message: 'User is authenticated',
-          ),
-        );
-      }
-    });
+    _authRepository.userStream
+        .map((user) => AuthState$Idle(user: user))
+        .where((event) => !identical(event, state))
+        .listen(setState);
 
     on<AuthEvent>(
       (event, emit) => event.map(
@@ -268,16 +256,14 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> with SetStateMixin {
   ) async {
     setState(AuthState.processing(user: state.user));
     try {
-      await _authRepository.signInWithEmailAndPassword(
+      final user = await _authRepository.signInWithEmailAndPassword(
         email: event.email,
         password: event.password,
       );
+      setState(AuthState.idle(user: user));
     } on Object catch (e) {
       setState(
-        AuthState.idle(
-          error: ErrorUtil.formatError(e),
-          message: 'Failed to sign in with email and password',
-        ),
+        AuthState.idle(error: ErrorUtil.formatError(e)),
       );
       rethrow;
     }
@@ -288,17 +274,11 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> with SetStateMixin {
     try {
       final user = await _authRepository.signInAnonymously();
       setState(
-        AuthState.idle(
-          user: user,
-          message: 'Signed in anonymously',
-        ),
+        AuthState.idle(user: user),
       );
     } on Object catch (e) {
       setState(
-        AuthState.idle(
-          error: ErrorUtil.formatError(e),
-          message: 'Failed to sign in anonymously',
-        ),
+        AuthState.idle(error: ErrorUtil.formatError(e)),
       );
       rethrow;
     }
@@ -308,16 +288,11 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> with SetStateMixin {
     setState(AuthState.processing(user: state.user));
     try {
       setState(
-        const AuthState.idle(
-          message: 'Signed out',
-        ),
+        const AuthState.idle(),
       );
     } on Object catch (e) {
       setState(
-        AuthState.idle(
-          error: ErrorUtil.formatError(e),
-          message: 'Failed to sign out',
-        ),
+        AuthState.idle(error: ErrorUtil.formatError(e)),
       );
       rethrow;
     }
