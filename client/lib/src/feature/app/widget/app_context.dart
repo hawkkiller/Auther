@@ -27,7 +27,8 @@ class _AppContextState extends State<AppContext> {
       ],
       theme: lightThemeData,
       darkTheme: darkThemeData,
-      locale: const Locale('es'),
+      // TODO(mlazebny): implement locale change.
+      locale: const Locale('en', 'US'),
     );
   }
 }
