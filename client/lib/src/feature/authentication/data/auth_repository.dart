@@ -1,6 +1,6 @@
+import 'package:auther_client/src/feature/authentication/data/auth_data_provider.dart';
+import 'package:auther_client/src/feature/authentication/model/user.dart';
 import 'package:shared/model.dart';
-import 'package:sizzle_starter/src/feature/authentication/data/auth_data_provider.dart';
-import 'package:sizzle_starter/src/feature/authentication/model/user.dart';
 
 abstract interface class AuthRepository {
   /// Returns a stream of [TokenPair]s.
@@ -39,19 +39,19 @@ abstract interface class AuthRepository {
   Future<void> signOut();
 
   /// Attempts to sign in with the given [email] and [password].
-  Future<void> signInWithEmailAndPassword({
+  Future<User> signInWithEmailAndPassword({
     required String email,
     required String password,
   });
 
   /// Attempts to sign up with the given [email] and [password].
-  Future<void> signUpWithEmailAndPassword({
+  Future<User> signUpWithEmailAndPassword({
     required String email,
     required String password,
   });
 
   /// Attempts to sign in anonymously.
-  Future<void> signInAnonymously();
+  Future<User> signInAnonymously();
 }
 
 final class AuthRepositoryImpl implements AuthRepository {
@@ -77,7 +77,7 @@ final class AuthRepositoryImpl implements AuthRepository {
   Future<void> signOut() => _authDataProvider.signOut();
 
   @override
-  Future<void> signInWithEmailAndPassword({
+  Future<User> signInWithEmailAndPassword({
     required String email,
     required String password,
   }) =>
@@ -87,7 +87,7 @@ final class AuthRepositoryImpl implements AuthRepository {
       );
 
   @override
-  Future<void> signUpWithEmailAndPassword({
+  Future<User> signUpWithEmailAndPassword({
     required String email,
     required String password,
   }) =>
@@ -97,5 +97,5 @@ final class AuthRepositoryImpl implements AuthRepository {
       );
 
   @override
-  Future<void> signInAnonymously() => _authDataProvider.signInAnonymously();
+  Future<User> signInAnonymously() => _authDataProvider.signInAnonymously();
 }

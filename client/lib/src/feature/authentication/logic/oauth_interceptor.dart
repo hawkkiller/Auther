@@ -1,5 +1,5 @@
+import 'package:auther_client/src/feature/authentication/data/auth_data_provider.dart';
 import 'package:http_interceptor/http_interceptor.dart';
-import 'package:sizzle_starter/src/feature/authentication/data/auth_data_provider.dart';
 
 final class OAuthInterceptor extends InterceptorContract {
   OAuthInterceptor(this._accessor);

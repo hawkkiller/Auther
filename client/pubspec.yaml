@@ -1,4 +1,4 @@
-name: sizzle_starter
+name: auther_client
 description: Your description
 
 # Prevent accidental publishing to pub.dev.
@@ -97,6 +97,14 @@ flutter:
     # Add assets from the images directory to the application.
     - assets/images/
 
-flutter_gen:
-  output: lib/src/core/assets/generated
-  line_length: 80
+flutter_intl:
+  enabled: true
+  class_name: GeneratedLocalization
+  main_locale: en
+  arb_dir: lib/src/core/localization/translations
+  output_dir: lib/src/core/localization/generated
+  use_deferred_loading: false
+
+# flutter_gen:
+#   output: lib/src/core/assets/generated
+#   line_length: 80

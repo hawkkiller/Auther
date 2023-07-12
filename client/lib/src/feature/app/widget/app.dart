@@ -1,10 +1,10 @@
+import 'package:auther_client/src/core/router/app_router_scope.dart';
+import 'package:auther_client/src/core/widget/scope_widgets.dart';
+import 'package:auther_client/src/feature/app/widget/app_context.dart';
+import 'package:auther_client/src/feature/initialization/model/dependencies.dart';
+import 'package:auther_client/src/feature/initialization/widget/dependencies_scope.dart';
 import 'package:flutter/material.dart';
 import 'package:sentry_flutter/sentry_flutter.dart';
-import 'package:sizzle_starter/src/core/router/app_router_scope.dart';
-import 'package:sizzle_starter/src/core/widget/scope_widgets.dart';
-import 'package:sizzle_starter/src/feature/app/widget/app_context.dart';
-import 'package:sizzle_starter/src/feature/initialization/model/dependencies.dart';
-import 'package:sizzle_starter/src/feature/initialization/widget/dependencies_scope.dart';
 
 /// A widget which is responsible for running the app.
 class App extends StatelessWidget {

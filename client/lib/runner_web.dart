@@ -1,4 +1,4 @@
-import 'package:sizzle_starter/runner_shared.dart';
+import 'package:auther_client/runner_shared.dart';
 
 // Web runner
 Future<void> run() async {

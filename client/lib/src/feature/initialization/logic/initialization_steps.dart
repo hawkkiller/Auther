@@ -1,16 +1,15 @@
 import 'dart:async';
 
+import 'package:auther_client/src/feature/authentication/data/auth_data_provider.dart';
+import 'package:auther_client/src/feature/authentication/data/auth_repository.dart';
+import 'package:auther_client/src/feature/initialization/model/initialization_progress.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:sizzle_starter/src/feature/authentication/data/auth_data_provider.dart';
-import 'package:sizzle_starter/src/feature/authentication/data/auth_repository.dart';
-import 'package:sizzle_starter/src/feature/initialization/model/dependencies.dart';
-import 'package:sizzle_starter/src/feature/initialization/model/initialization_progress.dart';
 
 typedef StepAction = FutureOr<void>? Function(InitializationProgress progress);
 
 /// The initialization steps, which are executed in the order they are defined.
 ///
-/// The [Dependencies] object is passed to each step, which allows the step to
+/// The [InitializationProgress] object is passed to each step, which allows the step to
 /// set the dependency, and the next step to use it.
 mixin InitializationSteps {
   final initializationSteps = <String, StepAction>{

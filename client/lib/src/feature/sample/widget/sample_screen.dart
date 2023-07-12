@@ -1,6 +1,6 @@
+import 'package:auther_client/src/core/utils/extensions/context_extension.dart';
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
-import 'package:sizzle_starter/src/core/utils/extensions/context_extension.dart';
 
 /// {@template sample_page}
 /// SamplePage widget
@@ -13,14 +13,8 @@ class SampleScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) => Scaffold(
         appBar: AppBar(
-          title: Text(context.stringOf().appTitle),
+          title: Text(context.stringOf().app_title),
         ),
-        body: Column(
-          children: [
-            Text(
-              context.stringOf().samplePlaceholder('Misha'),
-            ),
-          ],
-        ),
+        body: const Column(),
       );
 }

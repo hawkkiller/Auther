@@ -1,6 +1,6 @@
+import 'package:auther_client/src/core/router/router.dart';
+import 'package:auther_client/src/core/utils/mixin/scope_mixin.dart';
 import 'package:flutter/material.dart';
-import 'package:sizzle_starter/src/core/router/router.dart';
-import 'package:sizzle_starter/src/core/utils/mixin/scope_mixin.dart';
 
 /// A widget which is responsible for providing the [AppRouter].
 class AppRouterScope extends StatefulWidget with ScopeMixin {

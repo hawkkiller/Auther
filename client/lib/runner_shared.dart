@@ -1,11 +1,11 @@
 import 'dart:async';
 
+import 'package:auther_client/src/core/utils/logger.dart';
+import 'package:auther_client/src/feature/app/logic/app_runner.dart';
+import 'package:auther_client/src/feature/initialization/logic/initialization_processor.dart';
+import 'package:auther_client/src/feature/initialization/model/dependencies.dart';
+import 'package:auther_client/src/feature/initialization/model/initialization_hook.dart';
 import 'package:l/l.dart';
-import 'package:sizzle_starter/src/core/utils/logger.dart';
-import 'package:sizzle_starter/src/feature/app/logic/app_runner.dart';
-import 'package:sizzle_starter/src/feature/initialization/logic/initialization_processor.dart';
-import 'package:sizzle_starter/src/feature/initialization/model/dependencies.dart';
-import 'package:sizzle_starter/src/feature/initialization/model/initialization_hook.dart';
 
 void _onInitializing(InitializationStepInfo info) {
   final percentage = ((info.step / info.stepsCount) * 100).toInt();

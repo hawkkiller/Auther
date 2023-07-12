@@ -1,4 +1,4 @@
-import 'package:sizzle_starter/src/feature/initialization/model/enum/environment.dart';
+import 'package:auther_client/src/feature/initialization/model/enum/environment.dart';
 
 abstract class IEnvironmentStore {
   abstract final Environment environment;
@@ -19,7 +19,9 @@ class EnvironmentStore extends IEnvironmentStore {
   Environment get environment => _env;
 
   @override
-  String get baseUrl => const String.fromEnvironment('BASE_URL');
+  String get baseUrl => const bool.hasEnvironment('BASE_URL')
+      ? const String.fromEnvironment('BASE_URL')
+      : (throw Exception('BASE_URL not set'));
 
   @override
   String get sentryDsn => const String.fromEnvironment('SENTRY_DSN');

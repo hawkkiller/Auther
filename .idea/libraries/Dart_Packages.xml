@@ -63,14 +63,14 @@
         <entry key="auto_route">
           <value>
             <list>
-              <option value="$USER_HOME$/.pub-cache/hosted/pub.dev/auto_route-7.4.0/lib" />
+              <option value="$USER_HOME$/.pub-cache/hosted/pub.dev/auto_route-7.7.0/lib" />
             </list>
           </value>
         </entry>
         <entry key="auto_route_generator">
           <value>
             <list>
-              <option value="$USER_HOME$/.pub-cache/hosted/pub.dev/auto_route_generator-7.1.1/lib" />
+              <option value="$USER_HOME$/.pub-cache/hosted/pub.dev/auto_route_generator-7.2.0/lib" />
             </list>
           </value>
         </entry>
@@ -311,7 +311,7 @@
         <entry key="firebase_analytics">
           <value>
             <list>
-              <option value="$USER_HOME$/.pub-cache/hosted/pub.dev/firebase_analytics-10.4.2/lib" />
+              <option value="$USER_HOME$/.pub-cache/hosted/pub.dev/firebase_analytics-10.4.3/lib" />
             </list>
           </value>
         </entry>
@@ -522,7 +522,7 @@
         <entry key="json_serializable">
           <value>
             <list>
-              <option value="$USER_HOME$/.pub-cache/hosted/pub.dev/json_serializable-6.7.0/lib" />
+              <option value="$USER_HOME$/.pub-cache/hosted/pub.dev/json_serializable-6.7.1/lib" />
             </list>
           </value>
         </entry>
@@ -530,7 +530,6 @@
           <value>
             <list>
               <option value="$USER_HOME$/.pub-cache/hosted/pub.dev/l-4.0.2/lib" />
-              <option value="$USER_HOME$/.pub-cache/hosted/pub.dev/l-4.0.1/lib" />
             </list>
           </value>
         </entry>
@@ -678,7 +677,7 @@
         <entry key="platform_info">
           <value>
             <list>
-              <option value="$USER_HOME$/.pub-cache/hosted/pub.dev/platform_info-4.0.0/lib" />
+              <option value="$USER_HOME$/.pub-cache/hosted/pub.dev/platform_info-4.0.2/lib" />
             </list>
           </value>
         </entry>
@@ -755,21 +754,21 @@
         <entry key="sentry">
           <value>
             <list>
-              <option value="$USER_HOME$/.pub-cache/hosted/pub.dev/sentry-7.7.0/lib" />
+              <option value="$USER_HOME$/.pub-cache/hosted/pub.dev/sentry-7.8.0/lib" />
             </list>
           </value>
         </entry>
         <entry key="sentry_flutter">
           <value>
             <list>
-              <option value="$USER_HOME$/.pub-cache/hosted/pub.dev/sentry_flutter-7.7.0/lib" />
+              <option value="$USER_HOME$/.pub-cache/hosted/pub.dev/sentry_flutter-7.8.0/lib" />
             </list>
           </value>
         </entry>
         <entry key="shared_preferences">
           <value>
             <list>
-              <option value="$USER_HOME$/.pub-cache/hosted/pub.dev/shared_preferences-2.1.2/lib" />
+              <option value="$USER_HOME$/.pub-cache/hosted/pub.dev/shared_preferences-2.2.0/lib" />
             </list>
           </value>
         </entry>
@@ -1090,8 +1089,8 @@
       <root url="file://$USER_HOME$/.pub-cache/hosted/pub.dev/archive-3.3.7/lib" />
       <root url="file://$USER_HOME$/.pub-cache/hosted/pub.dev/args-2.4.2/lib" />
       <root url="file://$USER_HOME$/.pub-cache/hosted/pub.dev/async-2.11.0/lib" />
-      <root url="file://$USER_HOME$/.pub-cache/hosted/pub.dev/auto_route-7.4.0/lib" />
-      <root url="file://$USER_HOME$/.pub-cache/hosted/pub.dev/auto_route_generator-7.1.1/lib" />
+      <root url="file://$USER_HOME$/.pub-cache/hosted/pub.dev/auto_route-7.7.0/lib" />
+      <root url="file://$USER_HOME$/.pub-cache/hosted/pub.dev/auto_route_generator-7.2.0/lib" />
       <root url="file://$USER_HOME$/.pub-cache/hosted/pub.dev/bloc-8.1.2/lib" />
       <root url="file://$USER_HOME$/.pub-cache/hosted/pub.dev/bloc_concurrency-0.2.2/lib" />
       <root url="file://$USER_HOME$/.pub-cache/hosted/pub.dev/boolean_selector-2.1.1/lib" />
@@ -1128,7 +1127,7 @@
       <root url="file://$USER_HOME$/.pub-cache/hosted/pub.dev/ffi-2.0.2/lib" />
       <root url="file://$USER_HOME$/.pub-cache/hosted/pub.dev/file-6.1.4/lib" />
       <root url="file://$USER_HOME$/.pub-cache/hosted/pub.dev/file-7.0.0/lib" />
-      <root url="file://$USER_HOME$/.pub-cache/hosted/pub.dev/firebase_analytics-10.4.2/lib" />
+      <root url="file://$USER_HOME$/.pub-cache/hosted/pub.dev/firebase_analytics-10.4.3/lib" />
       <root url="file://$USER_HOME$/.pub-cache/hosted/pub.dev/firebase_analytics_platform_interface-3.6.3/lib" />
       <root url="file://$USER_HOME$/.pub-cache/hosted/pub.dev/firebase_analytics_web-0.5.4+3/lib" />
       <root url="file://$USER_HOME$/.pub-cache/hosted/pub.dev/firebase_core-2.14.0/lib" />
@@ -1155,8 +1154,7 @@
       <root url="file://$USER_HOME$/.pub-cache/hosted/pub.dev/io-1.0.4/lib" />
       <root url="file://$USER_HOME$/.pub-cache/hosted/pub.dev/js-0.6.7/lib" />
       <root url="file://$USER_HOME$/.pub-cache/hosted/pub.dev/json_annotation-4.8.1/lib" />
-      <root url="file://$USER_HOME$/.pub-cache/hosted/pub.dev/json_serializable-6.7.0/lib" />
-      <root url="file://$USER_HOME$/.pub-cache/hosted/pub.dev/l-4.0.1/lib" />
+      <root url="file://$USER_HOME$/.pub-cache/hosted/pub.dev/json_serializable-6.7.1/lib" />
       <root url="file://$USER_HOME$/.pub-cache/hosted/pub.dev/l-4.0.2/lib" />
       <root url="file://$USER_HOME$/.pub-cache/hosted/pub.dev/lints-2.1.1/lib" />
       <root url="file://$USER_HOME$/.pub-cache/hosted/pub.dev/logging-1.2.0/lib" />
@@ -1179,7 +1177,7 @@
       <root url="file://$USER_HOME$/.pub-cache/hosted/pub.dev/path_provider_windows-2.1.7/lib" />
       <root url="file://$USER_HOME$/.pub-cache/hosted/pub.dev/petitparser-5.4.0/lib" />
       <root url="file://$USER_HOME$/.pub-cache/hosted/pub.dev/platform-3.1.0/lib" />
-      <root url="file://$USER_HOME$/.pub-cache/hosted/pub.dev/platform_info-4.0.0/lib" />
+      <root url="file://$USER_HOME$/.pub-cache/hosted/pub.dev/platform_info-4.0.2/lib" />
       <root url="file://$USER_HOME$/.pub-cache/hosted/pub.dev/plugin_platform_interface-2.1.4/lib" />
       <root url="file://$USER_HOME$/.pub-cache/hosted/pub.dev/pointycastle-3.7.3/lib" />
       <root url="file://$USER_HOME$/.pub-cache/hosted/pub.dev/pool-1.5.1/lib" />
@@ -1190,9 +1188,9 @@
       <root url="file://$USER_HOME$/.pub-cache/hosted/pub.dev/pure-0.2.0/lib" />
       <root url="file://$USER_HOME$/.pub-cache/hosted/pub.dev/recase-4.1.0/lib" />
       <root url="file://$USER_HOME$/.pub-cache/hosted/pub.dev/rxdart-0.27.7/lib" />
-      <root url="file://$USER_HOME$/.pub-cache/hosted/pub.dev/sentry-7.7.0/lib" />
-      <root url="file://$USER_HOME$/.pub-cache/hosted/pub.dev/sentry_flutter-7.7.0/lib" />
-      <root url="file://$USER_HOME$/.pub-cache/hosted/pub.dev/shared_preferences-2.1.2/lib" />
+      <root url="file://$USER_HOME$/.pub-cache/hosted/pub.dev/sentry-7.8.0/lib" />
+      <root url="file://$USER_HOME$/.pub-cache/hosted/pub.dev/sentry_flutter-7.8.0/lib" />
+      <root url="file://$USER_HOME$/.pub-cache/hosted/pub.dev/shared_preferences-2.2.0/lib" />
       <root url="file://$USER_HOME$/.pub-cache/hosted/pub.dev/shared_preferences_android-2.2.0/lib" />
       <root url="file://$USER_HOME$/.pub-cache/hosted/pub.dev/shared_preferences_foundation-2.3.0/lib" />
       <root url="file://$USER_HOME$/.pub-cache/hosted/pub.dev/shared_preferences_linux-2.3.0/lib" />

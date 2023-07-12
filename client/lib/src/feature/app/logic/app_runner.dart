@@ -1,14 +1,13 @@
-import 'dart:ui';
-
+import 'package:auther_client/src/core/bloc/observer.dart';
+import 'package:auther_client/src/core/utils/logger.dart';
+import 'package:auther_client/src/feature/app/widget/app.dart';
+import 'package:auther_client/src/feature/initialization/logic/initialization_processor.dart';
+import 'package:auther_client/src/feature/initialization/logic/initialization_steps.dart';
+import 'package:auther_client/src/feature/initialization/model/initialization_hook.dart';
 import 'package:bloc_concurrency/bloc_concurrency.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:sizzle_starter/src/core/bloc/observer.dart';
-import 'package:sizzle_starter/src/core/utils/logger.dart';
-import 'package:sizzle_starter/src/feature/app/widget/app.dart';
-import 'package:sizzle_starter/src/feature/initialization/logic/initialization_processor.dart';
-import 'package:sizzle_starter/src/feature/initialization/logic/initialization_steps.dart';
-import 'package:sizzle_starter/src/feature/initialization/model/initialization_hook.dart';
 
 /// A class which is responsible for initialization and running the app.
 class AppRunner

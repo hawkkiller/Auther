@@ -1,5 +1,5 @@
+import 'package:auther_client/src/feature/authentication/data/auth_repository.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:sizzle_starter/src/feature/authentication/data/auth_repository.dart';
 
 /// Dependencies container
 abstract interface class Dependencies {

@@ -1,0 +1,5 @@
+{
+  "app_title": "Auther",
+  "unknown_error": "Unknown error: ${value}",
+  "exception_occured": "Exception occured: {value}"
+}

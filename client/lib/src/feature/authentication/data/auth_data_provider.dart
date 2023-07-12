@@ -1,12 +1,12 @@
 import 'dart:async';
 import 'dart:convert';
 
+import 'package:auther_client/src/feature/authentication/model/user.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:path/path.dart' as p;
 import 'package:shared/model.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:sizzle_starter/src/feature/authentication/model/user.dart';
 
 abstract interface class AuthTokenAccessor {
   /// Returns the current [TokenPair].
@@ -53,19 +53,19 @@ abstract interface class AuthDataProvider
   User? getUser();
 
   /// Attempts to sign in with the given [email] and [password].
-  Future<void> signInWithEmailAndPassword({
+  Future<User> signInWithEmailAndPassword({
     required String email,
     required String password,
   });
 
   /// Attempts to sign up with the given [email] and [password].
-  Future<void> signUpWithEmailAndPassword({
+  Future<User> signUpWithEmailAndPassword({
     required String email,
     required String password,
   });
 
   /// Attempts to sign in anonymously.
-  Future<void> signInAnonymously();
+  Future<User> signInAnonymously();
 }
 
 final class AuthDataProviderImpl implements AuthDataProvider {
@@ -112,6 +112,21 @@ final class AuthDataProviderImpl implements AuthDataProvider {
     _userController.add(user);
   }
 
+  TokenPair _decodeTokenPair(dynamic json) {
+    if (json
+        case {
+          'access_token': final String accessToken,
+          'refresh_token': final String refreshToken,
+        }) {
+      return (
+        accessToken: accessToken,
+        refreshToken: refreshToken,
+      );
+    } else {
+      throw const FormatException('Failed to decode token pair');
+    }
+  }
+
   @override
   Future<TokenPair> refreshTokenPair() async {
     final tokenPair = getTokenPair();
@@ -133,26 +148,14 @@ final class AuthDataProviderImpl implements AuthDataProvider {
 
     final json = jsonDecode(response.body);
 
-    if (json
-        case {
-          'access_token': final String accessToken,
-          'refresh_token': final String refreshToken,
-        }) {
-      final tokenPair = (
-        accessToken: accessToken,
-        refreshToken: refreshToken,
-      );
+    final newTokenPair = _decodeTokenPair(json);
+    await _saveTokenPair(newTokenPair);
 
-      await _saveTokenPair(tokenPair);
-
-      return tokenPair;
-    } else {
-      throw Exception('Failed to refresh token pair');
-    }
+    return newTokenPair;
   }
 
   @override
-  Future<void> signInAnonymously() async {
+  Future<User> signInAnonymously() async {
     final response = await httpClient.post(
       _buildUri('/auth/guest'),
     );
@@ -163,30 +166,19 @@ final class AuthDataProviderImpl implements AuthDataProvider {
 
     final json = jsonDecode(response.body);
 
-    if (json
-        case {
-          'access_token': final String accessToken,
-          'refresh_token': final String refreshToken,
-        }) {
-      final tokenPair = (
-        accessToken: accessToken,
-        refreshToken: refreshToken,
-      );
+    final tokenPair = _decodeTokenPair(json);
 
-      await _saveTokenPair(tokenPair);
+    await _saveTokenPair(tokenPair);
 
-      const user = User(isAnonymous: true);
+    const user = User(isAnonymous: true);
 
-      await _saveUser(user);
+    await _saveUser(user);
 
-      return;
-    } else {
-      throw Exception('Failed to sign in anonymously');
-    }
+    return user;
   }
 
   @override
-  Future<void> signInWithEmailAndPassword({
+  Future<User> signInWithEmailAndPassword({
     required String email,
     required String password,
   }) async {
@@ -204,30 +196,19 @@ final class AuthDataProviderImpl implements AuthDataProvider {
 
     final json = jsonDecode(response.body);
 
-    if (json
-        case {
-          'access_token': final String accessToken,
-          'refresh_token': final String refreshToken,
-        }) {
-      final tokenPair = (
-        accessToken: accessToken,
-        refreshToken: refreshToken,
-      );
+    final tokenPair = _decodeTokenPair(json);
 
-      await _saveTokenPair(tokenPair);
+    await _saveTokenPair(tokenPair);
 
-      final user = User(email: email, isAnonymous: false);
+    final user = User(email: email, isAnonymous: false);
 
-      await _saveUser(user);
+    await _saveUser(user);
 
-      return;
-    } else {
-      throw Exception('Failed to sign in with email and password');
-    }
+    return user;
   }
 
   @override
-  Future<void> signUpWithEmailAndPassword({
+  Future<User> signUpWithEmailAndPassword({
     required String email,
     required String password,
   }) async {
@@ -245,26 +226,15 @@ final class AuthDataProviderImpl implements AuthDataProvider {
 
     final json = jsonDecode(response.body);
 
-    if (json
-        case {
-          'access_token': final String accessToken,
-          'refresh_token': final String refreshToken,
-        }) {
-      final tokenPair = (
-        accessToken: accessToken,
-        refreshToken: refreshToken,
-      );
+    final tokenPair = _decodeTokenPair(json);
 
-      await _saveTokenPair(tokenPair);
+    await _saveTokenPair(tokenPair);
 
-      final user = User(email: email, isAnonymous: false);
+    final user = User(email: email, isAnonymous: false);
 
-      await _saveUser(user);
+    await _saveUser(user);
 
-      return;
-    } else {
-      throw Exception('Failed to sign up with email and password');
-    }
+    return user;
   }
 
   @override

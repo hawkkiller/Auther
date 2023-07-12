@@ -1,7 +1,6 @@
+import 'package:auther_client/src/core/localization/app_localization.dart';
 import 'package:flutter/widgets.dart';
-import 'package:sizzle_starter/src/core/localization/app_localization.dart';
 
 extension LocalizationX on BuildContext {
-  GeneratedLocalization stringOf() =>
-      AppLocalization.stringOf<GeneratedLocalization>(this);
+  Localization stringOf() => Localization.of(this);
 }

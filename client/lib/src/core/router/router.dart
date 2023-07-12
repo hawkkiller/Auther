@@ -1,5 +1,5 @@
+import 'package:auther_client/src/feature/sample/widget/sample_screen.dart';
 import 'package:auto_route/auto_route.dart';
-import 'package:sizzle_starter/src/feature/sample/widget/sample_screen.dart';
 
 part 'router.gr.dart';
 
