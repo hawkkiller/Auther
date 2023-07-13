@@ -1,4 +1,4 @@
-import 'package:auther_client/src/feature/sample/widget/sample_screen.dart';
+import 'package:auther_client/src/feature/authentication/widget/sign_in_screen.dart';
 import 'package:auto_route/auto_route.dart';
 
 part 'router.gr.dart';
@@ -10,6 +10,6 @@ class AppRouter extends _$AppRouter {
 
   @override
   List<AutoRoute> get routes => [
-        AutoRoute(page: SampleRoute.page, path: '/'),
+        AutoRoute(page: SignInRoute.page, initial: true),
       ];
 }

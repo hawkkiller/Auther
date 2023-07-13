@@ -80,6 +80,76 @@ class GeneratedLocalization {
       args: [value],
     );
   }
+
+  /// `Welcome back`
+  String get welcome_back {
+    return Intl.message(
+      'Welcome back',
+      name: 'welcome_back',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Sign in`
+  String get sign_in {
+    return Intl.message(
+      'Sign in',
+      name: 'sign_in',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Sign out`
+  String get sign_out {
+    return Intl.message(
+      'Sign out',
+      name: 'sign_out',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Sign up`
+  String get sign_up {
+    return Intl.message(
+      'Sign up',
+      name: 'sign_up',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Don't have an account?`
+  String get dont_have_account {
+    return Intl.message(
+      'Don\'t have an account?',
+      name: 'dont_have_account',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Email`
+  String get email {
+    return Intl.message(
+      'Email',
+      name: 'email',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Password`
+  String get password {
+    return Intl.message(
+      'Password',
+      name: 'password',
+      desc: '',
+      args: [],
+    );
+  }
 }
 
 class AppLocalizationDelegate

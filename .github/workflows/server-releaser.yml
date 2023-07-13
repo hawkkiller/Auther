@@ -3,8 +3,10 @@ on:
   push:
     tags:
       - '*'
+    branches:
+      - main
     paths:
-      - 'charts/auther_server/**'
+      - 'charts/auther/**'
       - 'server/**'
 permissions:
   contents: write # write releases
@@ -86,7 +88,8 @@ jobs:
           labels: ${{ steps.meta.outputs.labels }}
 
       - name: Publish Helm chart to GHCR
+        if: ${{ github.event_path == 'charts/auther/**' }}
         run: |
           helm package charts/auther
-          helm push auther-${{ steps.prep.outputs.VERSION }}.tgz oci://ghcr.io/hawkkiller/charts
-          rm auther-${{ steps.prep.outputs.VERSION }}.tgz
+          helm push auther-*.tgz oci://ghcr.io/hawkkiller/charts
+          rm auther-*.tgz

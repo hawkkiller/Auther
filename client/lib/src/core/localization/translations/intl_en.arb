@@ -1,5 +1,12 @@
 {
   "app_title": "Auther",
   "unknown_error": "Unknown error: ${value}",
-  "exception_occured": "Exception occured: {value}"
+  "exception_occured": "Exception occured: {value}",
+  "welcome_back": "Welcome back",
+  "sign_in": "Sign in",
+  "sign_out": "Sign out",
+  "sign_up": "Sign up",
+  "dont_have_account": "Don't have an account?",
+  "email": "Email",
+  "password": "Password"
 }

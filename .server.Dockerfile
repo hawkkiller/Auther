@@ -17,9 +17,6 @@ RUN cd server &&  \
 # and the pre-built AOT-runtime in the `/runtime/` directory of the base image.
 FROM debian:buster-slim as final
 
-# Here we are installing the SQLite3 lib
-ENV SECRET_KEY=secret
-
 COPY --from=build /runtime/ /
 COPY --from=build /app/server/bin/server /app/bin/
 

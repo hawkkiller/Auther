@@ -13,6 +13,15 @@
       "env": {
         "SECRET_KEY": "michaellazebny",
       },
+    },
+    {
+      "name": "Launch client",
+      "type": "dart",
+      "request": "launch",
+      "program": "${workspaceFolder}/client/lib/main.dart",
+      "toolArgs": [
+        "--dart-define=BASE_URL=auther.lazebny.io"
+      ]
     }
   ]
 }

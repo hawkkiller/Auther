@@ -90,12 +90,15 @@ dev_dependencies:
 flutter:
   uses-material-design: true
 
-  # Enable generation of localized Strings from arb files.
-  generate: false
-
   assets:
     # Add assets from the images directory to the application.
     - assets/images/
+  
+  fonts:
+    - family: Orbitron
+      fonts:
+      - asset: assets/fonts/Orbitron-Regular.ttf
+        weight: 400
 
 flutter_intl:
   enabled: true
@@ -105,6 +108,6 @@ flutter_intl:
   output_dir: lib/src/core/localization/generated
   use_deferred_loading: false
 
-# flutter_gen:
-#   output: lib/src/core/assets/generated
-#   line_length: 80
+flutter_gen:
+  output: lib/src/core/assets/generated
+  line_length: 80
