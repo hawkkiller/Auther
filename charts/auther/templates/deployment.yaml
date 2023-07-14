@@ -69,7 +69,7 @@ spec:
       tolerations:
         {{- toYaml . | nindent 8 }}
       {{- end }}
-    volumes:
-      - name: data
-        persistentVolumeClaim:
-          claimName: {{ include "auther.fullname" . }}
+      volumes:
+        - name: data
+          persistentVolumeClaim:
+            claimName: {{ include "auther.fullname" . }}
