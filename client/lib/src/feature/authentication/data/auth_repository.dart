@@ -48,6 +48,7 @@ abstract interface class AuthRepository {
   Future<User> signUpWithEmailAndPassword({
     required String email,
     required String password,
+    required String username,
   });
 
   /// Attempts to sign in anonymously.
@@ -90,10 +91,12 @@ final class AuthRepositoryImpl implements AuthRepository {
   Future<User> signUpWithEmailAndPassword({
     required String email,
     required String password,
+    required String username,
   }) =>
       _authDataProvider.signUpWithEmailAndPassword(
         email: email,
         password: password,
+        username: username,
       );
 
   @override

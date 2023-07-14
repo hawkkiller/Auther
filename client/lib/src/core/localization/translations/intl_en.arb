@@ -12,5 +12,6 @@
   "sign_in_to_auther": "Sign in to Auther",
   "sign_up_to_auther": "Sign up to Auther",
   "user_exists": "User with this email already exists",
-  "user_not_found": "Email or password is incorrect"
+  "user_not_found": "Email or password is incorrect",
+  "username": "Username"
 }

@@ -63,6 +63,7 @@ abstract interface class AuthDataProvider
   Future<User> signUpWithEmailAndPassword({
     required String email,
     required String password,
+    required String username,
   });
 
   /// Attempts to sign in anonymously.
@@ -152,9 +153,9 @@ final class AuthDataProviderImpl implements AuthDataProvider {
 
     final response = await httpClient.post(
       _buildUri('auth/refresh'),
-      body: {
+      body: jsonEncode({
         'refresh_token': tokenPair.refreshToken,
-      },
+      }),
     );
 
     if (response.statusCode != 200) {
@@ -212,13 +213,15 @@ final class AuthDataProviderImpl implements AuthDataProvider {
   Future<User> signUpWithEmailAndPassword({
     required String email,
     required String password,
+    required String username,
   }) async {
     final response = await httpClient.post(
-      _buildUri('auth/register'),
-      body: {
+      _buildUri('api/auth/signup'),
+      body: jsonEncode({
         'email': email,
         'password': password,
-      },
+        'username': username,
+      }),
     );
 
     final tokenPair = _decodeTokenPair(response);

@@ -1,28 +1,28 @@
 import 'package:auther_client/src/core/localization/app_localization.dart';
-import 'package:auther_client/src/core/router/router.dart';
 import 'package:auther_client/src/core/widget/logo.dart';
 import 'package:auther_client/src/feature/authentication/widget/authentication_scope.dart';
 import 'package:auto_route/auto_route.dart';
-import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 
 @RoutePage()
-class SignInScreen extends StatefulWidget {
-  const SignInScreen({super.key});
+class SignUpScreen extends StatefulWidget {
+  const SignUpScreen({super.key});
 
   @override
-  State<SignInScreen> createState() => _SignInScreenState();
+  State<SignUpScreen> createState() => _SignUpScreenState();
 }
 
-class _SignInScreenState extends State<SignInScreen> {
+class _SignUpScreenState extends State<SignUpScreen> {
   late final TextEditingController _emailController;
   late final TextEditingController _passwordController;
+  late final TextEditingController _usernameController;
 
   @override
   void initState() {
     super.initState();
     _emailController = TextEditingController();
     _passwordController = TextEditingController();
+    _usernameController = TextEditingController();
   }
 
   @override
@@ -55,7 +55,7 @@ class _SignInScreenState extends State<SignInScreen> {
                   const SizedBox(height: 32),
                   Center(
                     child: Text(
-                      Localization.of(context).sign_in_to_auther,
+                      Localization.of(context).sign_up_to_auther,
                       style: Theme.of(context).textTheme.displayLarge?.copyWith(
                             fontWeight: FontWeight.bold,
                           ),
@@ -70,6 +70,18 @@ class _SignInScreenState extends State<SignInScreen> {
                       decoration: InputDecoration(
                         border: const OutlineInputBorder(),
                         labelText: Localization.of(context).email,
+                      ),
+                    ),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.only(top: 16),
+                    child: TextField(
+                      controller: _usernameController,
+                      cursorHeight:
+                          Theme.of(context).textTheme.bodyLarge!.fontSize,
+                      decoration: InputDecoration(
+                        labelText: Localization.of(context).username,
+                        border: const OutlineInputBorder(),
                       ),
                     ),
                   ),
@@ -109,40 +121,17 @@ class _SignInScreenState extends State<SignInScreen> {
                       onPressed: auth.isProcessing
                           ? null
                           : () {
-                              auth.signInWithEmailAndPassword(
+                              auth.signUpWithEmailAndPassword(
                                 _emailController.text,
                                 _passwordController.text,
+                                _usernameController.text,
                               );
                             },
                       child: auth.isProcessing
                           ? const CircularProgressIndicator.adaptive()
                           : Text(
-                              Localization.of(context).sign_in,
+                              Localization.of(context).sign_up,
                             ),
-                    ),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.only(top: 8),
-                    child: Text.rich(
-                      TextSpan(
-                        text: Localization.of(context).dont_have_account,
-                        children: [
-                          TextSpan(
-                            // TODO(mlazebny): implement redirect to sign up screen
-                            recognizer: TapGestureRecognizer()..onTap = () {
-                              context.router.push(const SignUpRoute());
-                            },
-                            text: ' ${Localization.of(context).sign_up}',
-                            style: Theme.of(context)
-                                .textTheme
-                                .labelSmall!
-                                .copyWith(
-                                  color: Theme.of(context).colorScheme.primary,
-                                ),
-                          ),
-                        ],
-                      ),
-                      style: Theme.of(context).textTheme.labelSmall,
                     ),
                   ),
                 ],

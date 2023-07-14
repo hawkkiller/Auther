@@ -11,6 +11,13 @@ abstract mixin class AuthenticationController {
   /// Sign in as a guest
   void signInAnonymously();
 
+  /// Sign up with [email], [password] and [username]
+  void signUpWithEmailAndPassword(
+    String email,
+    String password,
+    String username,
+  );
+
   /// Sign out the current user
   void signOut();
 
@@ -92,6 +99,20 @@ class _AuthenticationScopeState extends State<AuthenticationScope>
         AuthEvent.signInWithEmailAndPassword(
           email: email,
           password: password,
+        ),
+      );
+
+  @override
+  void signUpWithEmailAndPassword(
+    String email,
+    String password,
+    String username,
+  ) =>
+      _authBloc.add(
+        AuthEvent.signUpWithEmailAndPassword(
+          email: email,
+          password: password,
+          username: username,
         ),
       );
 

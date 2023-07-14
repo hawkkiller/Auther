@@ -44,6 +44,7 @@ class MessageLookup extends MessageLookupByLibrary {
             "User with this email already exists"),
         "user_not_found": MessageLookupByLibrary.simpleMessage(
             "Email or password is incorrect"),
+        "username": MessageLookupByLibrary.simpleMessage("Username"),
         "welcome_back": MessageLookupByLibrary.simpleMessage("Welcome back")
       };
 }

@@ -150,7 +150,36 @@ sealed class AuthEvent extends _$AuthEventBase {
 
   const factory AuthEvent.signInAnonymously() = _AuthEventSignInAnonymously;
 
+  const factory AuthEvent.signUpWithEmailAndPassword({
+    required String email,
+    required String password,
+    required String username,
+  }) = _AuthEventSignUpWithEmailAndPassword;
+
   const factory AuthEvent.signOut() = _AuthEventSignOut;
+}
+
+final class _AuthEventSignUpWithEmailAndPassword extends AuthEvent {
+  const _AuthEventSignUpWithEmailAndPassword({
+    required this.email,
+    required this.password,
+    required this.username,
+  }) : super();
+
+  final String email;
+  final String password;
+  final String username;
+
+  @override
+  String toString() {
+    final buffer = StringBuffer()
+      ..write('AuthEvent.signUp(')
+      ..write('email: $email, ')
+      ..write('password: $password, ')
+      ..write('username: $username')
+      ..write(')');
+    return buffer.toString();
+  }
 }
 
 final class _AuthEventSignInWithEmailAndPassword extends AuthEvent {
@@ -197,12 +226,16 @@ abstract base class _$AuthEventBase {
         signInWithEmailAndPassword,
     required AuthEventMatch<R, _AuthEventSignInAnonymously> signInAnonymously,
     required AuthEventMatch<R, _AuthEventSignOut> signOut,
+    required AuthEventMatch<R, _AuthEventSignUpWithEmailAndPassword>
+        signUpWithEmailAndPassword,
   }) =>
       switch (this) {
         final _AuthEventSignInWithEmailAndPassword s =>
           signInWithEmailAndPassword(s),
         final _AuthEventSignInAnonymously s => signInAnonymously(s),
         final _AuthEventSignOut s => signOut(s),
+        final _AuthEventSignUpWithEmailAndPassword s =>
+          signUpWithEmailAndPassword(s),
         _ => throw AssertionError(),
       };
 
@@ -212,12 +245,16 @@ abstract base class _$AuthEventBase {
         signInWithEmailAndPassword,
     AuthEventMatch<R, _AuthEventSignInAnonymously>? signInAnonymously,
     AuthEventMatch<R, _AuthEventSignOut>? signOut,
+    AuthEventMatch<R, _AuthEventSignUpWithEmailAndPassword>?
+        signUpWithEmailAndPassword,
   }) =>
       map<R>(
         signInWithEmailAndPassword:
             signInWithEmailAndPassword ?? (_) => orElse(),
         signInAnonymously: signInAnonymously ?? (_) => orElse(),
         signOut: signOut ?? (_) => orElse(),
+        signUpWithEmailAndPassword:
+            signUpWithEmailAndPassword ?? (_) => orElse(),
       );
 
   R? mapOrNull<R>({
@@ -225,11 +262,15 @@ abstract base class _$AuthEventBase {
         signInWithEmailAndPassword,
     AuthEventMatch<R, _AuthEventSignInAnonymously>? signInAnonymously,
     AuthEventMatch<R, _AuthEventSignOut>? signOut,
+    AuthEventMatch<R, _AuthEventSignUpWithEmailAndPassword>?
+        signUpWithEmailAndPassword,
   }) =>
       map<R?>(
         signInWithEmailAndPassword: signInWithEmailAndPassword ?? (_) => null,
         signInAnonymously: signInAnonymously ?? (_) => null,
         signOut: signOut ?? (_) => null,
+        signUpWithEmailAndPassword:
+            signUpWithEmailAndPassword ?? (_) => null,
       );
 }
 
@@ -245,11 +286,32 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> with SetStateMixin {
         signInWithEmailAndPassword: (e) => _signInWithEmailAndPassword(e, emit),
         signInAnonymously: (e) => _signInAnonymously(e, emit),
         signOut: (e) => _signOut(e, emit),
+        signUpWithEmailAndPassword: (e) => _signUpWithEmailAndPassword(e, emit),
       ),
     );
   }
 
   final AuthRepository _authRepository;
+
+  Future<void> _signUpWithEmailAndPassword(
+    _AuthEventSignUpWithEmailAndPassword event,
+    Emitter<AuthState> emit,
+  ) async {
+    emit(AuthState.processing(user: state.user));
+    try {
+      final user = await _authRepository.signUpWithEmailAndPassword(
+        email: event.email,
+        password: event.password,
+        username: event.username,
+      );
+      emit(AuthState.idle(user: user));
+    } on Object catch (e) {
+      emit(
+        AuthState.idle(error: ErrorUtil.formatError(e)),
+      );
+      rethrow;
+    }
+  }
 
   Future<void> _signInWithEmailAndPassword(
     _AuthEventSignInWithEmailAndPassword event,

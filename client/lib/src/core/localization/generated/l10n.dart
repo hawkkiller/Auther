@@ -190,6 +190,16 @@ class GeneratedLocalization {
       args: [],
     );
   }
+
+  /// `Username`
+  String get username {
+    return Intl.message(
+      'Username',
+      name: 'username',
+      desc: '',
+      args: [],
+    );
+  }
 }
 
 class AppLocalizationDelegate
