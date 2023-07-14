@@ -18,6 +18,13 @@ jobs:
     steps:
       - uses: actions/checkout@v3
 
+      - uses: dorny/paths-filter@v2
+        id: changes
+        with:
+          filters: |
+            cauther:
+              - 'charts/auther/**'
+
       - name: Setup Dart
         uses: dart-lang/setup-dart@v1
         with:
@@ -88,7 +95,7 @@ jobs:
           labels: ${{ steps.meta.outputs.labels }}
 
       - name: Publish Helm chart to GHCR
-        if: ${{ github.event_path == 'charts/auther/**' }}
+        if: steps.changes.outputs.cauther == 'true'
         run: |
           helm package charts/auther
           helm push auther-*.tgz oci://ghcr.io/hawkkiller/charts
