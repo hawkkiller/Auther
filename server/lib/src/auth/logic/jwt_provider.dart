@@ -1,4 +1,4 @@
-import 'package:auther_server/src/common/exception/auth_exception.dart';
+import 'package:auther/src/common/exception/auth_exception.dart';
 import 'package:dart_jsonwebtoken/dart_jsonwebtoken.dart';
 import 'package:shared/model.dart';
 

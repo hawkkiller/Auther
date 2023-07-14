@@ -1,14 +1,14 @@
 import 'dart:io';
 import 'dart:isolate';
 
-import 'package:auther_server/src/auth/logic/auth_database.dart';
-import 'package:auther_server/src/auth/logic/auth_service.dart';
-import 'package:auther_server/src/auth/logic/jwt_provider.dart';
-import 'package:auther_server/src/common/database/database.dart';
-import 'package:auther_server/src/common/middleware/injector.dart';
-import 'package:auther_server/src/common/middleware/json_content_type_response.dart';
-import 'package:auther_server/src/common/middleware/request_logger.dart';
-import 'package:auther_server/src/common/router/router.dart';
+import 'package:auther/src/auth/logic/auth_database.dart';
+import 'package:auther/src/auth/logic/auth_service.dart';
+import 'package:auther/src/auth/logic/jwt_provider.dart';
+import 'package:auther/src/common/database/database.dart';
+import 'package:auther/src/common/middleware/injector.dart';
+import 'package:auther/src/common/middleware/json_content_type_response.dart';
+import 'package:auther/src/common/middleware/request_logger.dart';
+import 'package:auther/src/common/router/router.dart';
 import 'package:shelf/shelf.dart' as shelf;
 import 'package:shelf/shelf_io.dart' as shelf_io;
 

@@ -1,4 +1,4 @@
-import 'package:auther_server/src/common/misc/app_response.dart';
+import 'package:auther/src/common/misc/app_response.dart';
 import 'package:shared/model.dart';
 import 'package:shelf/shelf.dart' as shelf;
 

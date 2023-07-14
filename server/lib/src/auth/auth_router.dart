@@ -1,8 +1,8 @@
 import 'dart:convert';
 
-import 'package:auther_server/src/auth/logic/auth_service.dart';
-import 'package:auther_server/src/common/exception/auth_exception.dart';
-import 'package:auther_server/src/common/misc/app_response.dart';
+import 'package:auther/src/auth/logic/auth_service.dart';
+import 'package:auther/src/common/exception/auth_exception.dart';
+import 'package:auther/src/common/misc/app_response.dart';
 import 'package:shared/model.dart';
 import 'package:shelf/shelf.dart';
 import 'package:shelf_router/shelf_router.dart';

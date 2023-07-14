@@ -3,10 +3,10 @@ import 'dart:io' as io;
 import 'dart:isolate';
 import 'dart:math' as math;
 
-import 'package:auther_server/src/auth/auth_router.dart';
-import 'package:auther_server/src/common/database/database.dart';
-import 'package:auther_server/src/common/router/router.dart';
-import 'package:auther_server/src/common/server/shared_server.dart';
+import 'package:auther/src/auth/auth_router.dart';
+import 'package:auther/src/common/database/database.dart';
+import 'package:auther/src/common/router/router.dart';
+import 'package:auther/src/common/server/shared_server.dart';
 import 'package:l/l.dart';
 import 'package:path/path.dart' as p;
 

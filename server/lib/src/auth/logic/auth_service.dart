@@ -1,5 +1,5 @@
-import 'package:auther_server/src/auth/logic/auth_database.dart';
-import 'package:auther_server/src/auth/logic/jwt_provider.dart';
+import 'package:auther/src/auth/logic/auth_database.dart';
+import 'package:auther/src/auth/logic/jwt_provider.dart';
 import 'package:shared/model.dart';
 
 abstract interface class AuthService {

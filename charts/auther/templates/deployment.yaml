@@ -1,16 +1,16 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: {{ include "auther_server.fullname" . }}
+  name: {{ include "auther.fullname" . }}
   labels:
-    {{- include "auther_server.labels" . | nindent 4 }}
+    {{- include "auther.labels" . | nindent 4 }}
 spec:
   {{- if not .Values.autoscaling.enabled }}
   replicas: {{ .Values.replicaCount }}
   {{- end }}
   selector:
     matchLabels:
-      {{- include "auther_server.selectorLabels" . | nindent 6 }}
+      {{- include "auther.selectorLabels" . | nindent 6 }}
   template:
     metadata:
       {{- with .Values.podAnnotations }}
@@ -18,13 +18,13 @@ spec:
         {{- toYaml . | nindent 8 }}
       {{- end }}
       labels:
-        {{- include "auther_server.selectorLabels" . | nindent 8 }}
+        {{- include "auther.selectorLabels" . | nindent 8 }}
     spec:
       {{- with .Values.imagePullSecrets }}
       imagePullSecrets:
         {{- toYaml . | nindent 8 }}
       {{- end }}
-      serviceAccountName: {{ include "auther_server.serviceAccountName" . }}
+      serviceAccountName: {{ include "auther.serviceAccountName" . }}
       securityContext:
         {{- toYaml .Values.podSecurityContext | nindent 8 }}
       containers:
@@ -44,6 +44,9 @@ spec:
               containerPort: 8080
 {{/*              containerPort: {{ .Values.service.port }}*/}}
               protocol: TCP
+          volumeMounts:
+            - name: data
+              mountPath: /data
           livenessProbe:
             httpGet:
               path: /healthz
@@ -66,3 +69,7 @@ spec:
       tolerations:
         {{- toYaml . | nindent 8 }}
       {{- end }}
+    volumes:
+      - name: data
+        persistentVolumeClaim:
+          claimName: {{ include "auther.fullname" . }}

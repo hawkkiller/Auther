@@ -1,5 +1,7 @@
-import 'package:auther_server/src/common/database/database.dart';
-import 'package:auther_server/src/common/exception/auth_exception.dart';
+import 'package:auther/src/common/database/database.dart';
+import 'package:auther/src/common/exception/auth_exception.dart';
+import 'package:auther/src/common/misc/drift_remote_decoder.dart';
+import 'package:drift/native.dart';
 
 abstract interface class AuthDatabase {
   /// Returns the user id if signUp was successful.
@@ -28,14 +30,6 @@ final class AuthDatabaseImpl implements AuthDatabase {
     required String email,
   }) async {
     try {
-      final userExists = await (_database.select(_database.userTbl)
-            ..where((tbl) => tbl.username.equals(username)))
-          .getSingleOrNull();
-
-      if (userExists != null) {
-        throw AuthException$UserNotFound();
-      }
-
       final user = await _database.into(_database.userTbl).insertReturning(
             UserTblCompanion.insert(
               username: username,
@@ -44,8 +38,14 @@ final class AuthDatabaseImpl implements AuthDatabase {
             ),
           );
       return user.id;
-    } on AuthException {
-      rethrow;
+    } on DriftRemoteException catch (e) {
+      final decodedDriftException = $decodeDriftRemoteException(e);
+      if (decodedDriftException is SqliteException) {
+        if (decodedDriftException.extendedResultCode == 2067) {
+          throw AuthException$UserExists();
+        }
+      }
+      throw AuthException$UnknownDatabaseError(e);
     } on Object catch (e, stackTrace) {
       Error.throwWithStackTrace(
         AuthException$UnknownDatabaseError(e),

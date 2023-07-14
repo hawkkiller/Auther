@@ -1,7 +1,7 @@
 {{/*
 Expand the name of the chart.
 */}}
-{{- define "auther_server.name" -}}
+{{- define "auther.name" -}}
 {{- default .Chart.Name .Values.nameOverride | trunc 63 | trimSuffix "-" }}
 {{- end }}
 
@@ -10,7 +10,7 @@ Create a default fully qualified app name.
 We truncate at 63 chars because some Kubernetes name fields are limited to this (by the DNS naming spec).
 If release name contains chart name it will be used as a full name.
 */}}
-{{- define "auther_server.fullname" -}}
+{{- define "auther.fullname" -}}
 {{- if .Values.fullnameOverride }}
 {{- .Values.fullnameOverride | trunc 63 | trimSuffix "-" }}
 {{- else }}
@@ -26,16 +26,16 @@ If release name contains chart name it will be used as a full name.
 {{/*
 Create chart name and version as used by the chart label.
 */}}
-{{- define "auther_server.chart" -}}
+{{- define "auther.chart" -}}
 {{- printf "%s-%s" .Chart.Name .Chart.Version | replace "+" "_" | trunc 63 | trimSuffix "-" }}
 {{- end }}
 
 {{/*
 Common labels
 */}}
-{{- define "auther_server.labels" -}}
-helm.sh/chart: {{ include "auther_server.chart" . }}
-{{ include "auther_server.selectorLabels" . }}
+{{- define "auther.labels" -}}
+helm.sh/chart: {{ include "auther.chart" . }}
+{{ include "auther.selectorLabels" . }}
 {{- if .Chart.AppVersion }}
 app.kubernetes.io/version: {{ .Chart.AppVersion | quote }}
 {{- end }}
@@ -45,18 +45,27 @@ app.kubernetes.io/managed-by: {{ .Release.Service }}
 {{/*
 Selector labels
 */}}
-{{- define "auther_server.selectorLabels" -}}
-app.kubernetes.io/name: {{ include "auther_server.name" . }}
+{{- define "auther.selectorLabels" -}}
+app.kubernetes.io/name: {{ include "auther.name" . }}
 app.kubernetes.io/instance: {{ .Release.Name }}
 {{- end }}
 
 {{/*
 Create the name of the service account to use
 */}}
-{{- define "auther_server.serviceAccountName" -}}
+{{- define "auther.serviceAccountName" -}}
 {{- if .Values.serviceAccount.create }}
-{{- default (include "auther_server.fullname" .) .Values.serviceAccount.name }}
+{{- default (include "auther.fullname" .) .Values.serviceAccount.name }}
 {{- else }}
 {{- default "default" .Values.serviceAccount.name }}
+{{- end }}
+{{- end }}
+
+{{- define "auther.pvc" -}}
+{{- if (not .Values.persistence.enabled) -}}
+emptyDir: {}
+{{- else -}}
+persistentVolumeClaim:
+  claimName: {{ include "auther.fullname" . }}
 {{- end }}
 {{- end }}
