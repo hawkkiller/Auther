@@ -242,9 +242,9 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> with SetStateMixin {
 
     on<AuthEvent>(
       (event, emit) => event.map(
-        signInWithEmailAndPassword: _signInWithEmailAndPassword,
-        signInAnonymously: _signInAnonymously,
-        signOut: _signOut,
+        signInWithEmailAndPassword: (e) => _signInWithEmailAndPassword(e, emit),
+        signInAnonymously: (e) => _signInAnonymously(e, emit),
+        signOut: (e) => _signOut(e, emit),
       ),
     );
   }
@@ -253,45 +253,52 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> with SetStateMixin {
 
   Future<void> _signInWithEmailAndPassword(
     _AuthEventSignInWithEmailAndPassword event,
+    Emitter<AuthState> emit,
   ) async {
-    setState(AuthState.processing(user: state.user));
+    emit(AuthState.processing(user: state.user));
     try {
       final user = await _authRepository.signInWithEmailAndPassword(
         email: event.email,
         password: event.password,
       );
-      setState(AuthState.idle(user: user));
+      emit(AuthState.idle(user: user));
     } on Object catch (e) {
-      setState(
+      emit(
         AuthState.idle(error: ErrorUtil.formatError(e)),
       );
       rethrow;
     }
   }
 
-  Future<void> _signInAnonymously(_AuthEventSignInAnonymously event) async {
-    setState(AuthState.processing(user: state.user));
+  Future<void> _signInAnonymously(
+    _AuthEventSignInAnonymously event,
+    Emitter<AuthState> emit,
+  ) async {
+    emit(AuthState.processing(user: state.user));
     try {
       final user = await _authRepository.signInAnonymously();
-      setState(
+      emit(
         AuthState.idle(user: user),
       );
     } on Object catch (e) {
-      setState(
+      emit(
         AuthState.idle(error: ErrorUtil.formatError(e)),
       );
       rethrow;
     }
   }
 
-  Future<void> _signOut(_AuthEventSignOut event) async {
-    setState(AuthState.processing(user: state.user));
+  Future<void> _signOut(
+    _AuthEventSignOut event,
+    Emitter<AuthState> emit,
+  ) async {
+    emit(AuthState.processing(user: state.user));
     try {
-      setState(
+      emit(
         const AuthState.idle(),
       );
     } on Object catch (e) {
-      setState(
+      emit(
         AuthState.idle(error: ErrorUtil.formatError(e)),
       );
       rethrow;

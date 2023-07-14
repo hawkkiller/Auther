@@ -20,7 +20,7 @@
       "request": "launch",
       "program": "${workspaceFolder}/client/lib/main.dart",
       "toolArgs": [
-        "--dart-define=BASE_URL=auther.lazebny.io"
+        "--dart-define=BASE_URL=https://auther.lazebny.io"
       ]
     }
   ]

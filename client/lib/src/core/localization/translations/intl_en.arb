@@ -8,5 +8,9 @@
   "sign_up": "Sign up",
   "dont_have_account": "Don't have an account?",
   "email": "Email",
-  "password": "Password"
+  "password": "Password",
+  "sign_in_to_auther": "Sign in to Auther",
+  "sign_up_to_auther": "Sign up to Auther",
+  "user_exists": "User with this email already exists",
+  "user_not_found": "Email or password is incorrect"
 }

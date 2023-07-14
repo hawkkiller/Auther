@@ -1,8 +1,5 @@
-import 'dart:async';
-
 import 'package:flutter/material.dart';
 import 'package:l/l.dart';
-import 'package:sentry_flutter/sentry_flutter.dart';
 import 'package:stack_trace/stack_trace.dart';
 
 extension on DateTime {
@@ -51,7 +48,7 @@ mixin Logger {
   /// [StackTrace.current].
   ///
   /// Builds error through [StringBuffer] and returns it.
-  static String _formatError(
+  static String formatError(
     String type,
     String error,
     StackTrace? stackTrace,
@@ -74,8 +71,7 @@ mixin Logger {
     Object? e,
     StackTrace s,
   ) {
-    l.e(_formatError('Top-level', e.toString(), s), s);
-    Sentry.captureException(e, stackTrace: s).ignore();
+    l.e(formatError('Top-level', e.toString(), s), s);
   }
 
   /// Helper static method to log a flutter error [FlutterError.onError]
@@ -84,7 +80,7 @@ mixin Logger {
     FlutterErrorDetails details,
   ) {
     final stack = details.stack;
-    l.e(_formatError('Flutter', details.exceptionAsString(), stack), stack);
+    l.e(formatError('Flutter', details.exceptionAsString(), stack), stack);
   }
 
   /// Helper static method to log a platform dispatcher error
@@ -94,7 +90,7 @@ mixin Logger {
     StackTrace stackTrace,
   ) {
     l.e(
-      _formatError('PlatformDispatcher', exception.toString(), stackTrace),
+      formatError('PlatformDispatcher', exception.toString(), stackTrace),
       stackTrace,
     );
     // TODO(mlazebny): check this later

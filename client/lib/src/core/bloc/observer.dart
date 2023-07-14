@@ -1,4 +1,5 @@
 import 'package:auther_client/src/core/utils/extensions/string_extension.dart';
+import 'package:auther_client/src/core/utils/logger.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:l/l.dart';
 
@@ -28,7 +29,10 @@ class AppBlocObserver extends BlocObserver {
 
   @override
   void onError(BlocBase<Object?> bloc, Object error, StackTrace stackTrace) {
-    l.e('Bloc: ${bloc.runtimeType} | $error', stackTrace);
+    l.e(
+      Logger.formatError('${bloc.runtimeType}', error.toString(), stackTrace),
+      stackTrace,
+    );
     super.onError(bloc, error, stackTrace);
   }
 }

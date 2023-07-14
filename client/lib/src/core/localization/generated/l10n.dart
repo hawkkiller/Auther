@@ -150,6 +150,46 @@ class GeneratedLocalization {
       args: [],
     );
   }
+
+  /// `Sign in to Auther`
+  String get sign_in_to_auther {
+    return Intl.message(
+      'Sign in to Auther',
+      name: 'sign_in_to_auther',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Sign up to Auther`
+  String get sign_up_to_auther {
+    return Intl.message(
+      'Sign up to Auther',
+      name: 'sign_up_to_auther',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `User with this email already exists`
+  String get user_exists {
+    return Intl.message(
+      'User with this email already exists',
+      name: 'user_exists',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Email or password is incorrect`
+  String get user_not_found {
+    return Intl.message(
+      'Email or password is incorrect',
+      name: 'user_not_found',
+      desc: '',
+      args: [],
+    );
+  }
 }
 
 class AppLocalizationDelegate

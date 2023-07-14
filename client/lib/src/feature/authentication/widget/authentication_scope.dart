@@ -20,6 +20,9 @@ abstract mixin class AuthenticationController {
   /// Whether the current user is being processed
   bool get isProcessing;
 
+  /// The error message
+  String? get error;
+
   /// Whether the current user is authenticated
   bool get isAuthenticated => user != null;
 }
@@ -46,8 +49,7 @@ class _AuthenticationScopeState extends State<AuthenticationScope>
     with AuthenticationController {
   late final AuthBloc _authBloc;
 
-  User? _user;
-  bool _processing = false;
+  AuthState? _state;
 
   @override
   void initState() {
@@ -63,19 +65,21 @@ class _AuthenticationScopeState extends State<AuthenticationScope>
   }
 
   void _onAuthStateChanged(AuthState state) {
-    if (_user != state.user || _processing != state.isProcessing) {
+    if (!identical(state, _state)) {
       setState(() {
-        _user = state.user;
-        _processing = state.isProcessing;
+        _state = state;
       });
     }
   }
 
   @override
-  User? get user => _user;
+  User? get user => _state?.user;
 
   @override
-  bool get isProcessing => _processing;
+  String? get error => _state?.error;
+
+  @override
+  bool get isProcessing => _state?.isProcessing ?? false;
 
   @override
   void signInAnonymously() => _authBloc.add(
@@ -99,6 +103,7 @@ class _AuthenticationScopeState extends State<AuthenticationScope>
   @override
   Widget build(BuildContext context) => _InheritedAuthentication(
         controller: this,
+        state: _state,
         child: widget.child,
       );
 }
@@ -106,13 +111,15 @@ class _AuthenticationScopeState extends State<AuthenticationScope>
 class _InheritedAuthentication extends InheritedWidget {
   const _InheritedAuthentication({
     required this.controller,
+    required this.state,
     required super.child,
   });
+
+  final AuthState? state;
 
   final AuthenticationController controller;
 
   @override
   bool updateShouldNotify(_InheritedAuthentication oldWidget) =>
-      controller.user != oldWidget.controller.user ||
-      controller.isProcessing != oldWidget.controller.isProcessing;
+      state != oldWidget.state;
 }

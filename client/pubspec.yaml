@@ -87,6 +87,13 @@ dev_dependencies:
   flutter_native_splash: 2.3.1
   flutter_gen_runner: 5.3.1
 
+dependency_overrides:
+  bloc:
+    git:
+      url: https://github.com/hawkkiller/bloc.git
+      path: packages/bloc
+      ref: master
+
 flutter:
   uses-material-design: true
 

@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'dart:convert';
 
+import 'package:auther_client/src/core/utils/error_util.dart';
 import 'package:auther_client/src/feature/authentication/model/user.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
@@ -112,7 +113,21 @@ final class AuthDataProviderImpl implements AuthDataProvider {
     _userController.add(user);
   }
 
-  TokenPair _decodeTokenPair(dynamic json) {
+  TokenPair _decodeTokenPair(http.Response response) {
+    final json = jsonDecode(response.body);
+
+    if (json
+        case {
+          'error': {
+            'message': final String message,
+            'code': final int code,
+          }
+        }) {
+      final errorCode = ErrorCode.fromInt(code);
+
+      ErrorUtil.throwAutherException(errorCode, message);
+    }
+
     if (json
         case {
           'access_token': final String accessToken,
@@ -122,9 +137,9 @@ final class AuthDataProviderImpl implements AuthDataProvider {
         accessToken: accessToken,
         refreshToken: refreshToken,
       );
-    } else {
-      throw const FormatException('Failed to decode token pair');
     }
+
+    throw const FormatException('Failed to decode token pair');
   }
 
   @override
@@ -136,7 +151,7 @@ final class AuthDataProviderImpl implements AuthDataProvider {
     }
 
     final response = await httpClient.post(
-      _buildUri('/auth/refresh'),
+      _buildUri('auth/refresh'),
       body: {
         'refresh_token': tokenPair.refreshToken,
       },
@@ -146,9 +161,7 @@ final class AuthDataProviderImpl implements AuthDataProvider {
       throw Exception('Failed to refresh token pair');
     }
 
-    final json = jsonDecode(response.body);
-
-    final newTokenPair = _decodeTokenPair(json);
+    final newTokenPair = _decodeTokenPair(response);
     await _saveTokenPair(newTokenPair);
 
     return newTokenPair;
@@ -157,16 +170,10 @@ final class AuthDataProviderImpl implements AuthDataProvider {
   @override
   Future<User> signInAnonymously() async {
     final response = await httpClient.post(
-      _buildUri('/auth/guest'),
+      _buildUri('auth/guest'),
     );
 
-    if (response.statusCode != 200) {
-      throw Exception('Failed to sign in anonymously');
-    }
-
-    final json = jsonDecode(response.body);
-
-    final tokenPair = _decodeTokenPair(json);
+    final tokenPair = _decodeTokenPair(response);
 
     await _saveTokenPair(tokenPair);
 
@@ -183,20 +190,14 @@ final class AuthDataProviderImpl implements AuthDataProvider {
     required String password,
   }) async {
     final response = await httpClient.post(
-      _buildUri('/auth/login'),
-      body: {
+      _buildUri('api/auth/signin'),
+      body: jsonEncode({
         'email': email,
         'password': password,
-      },
+      }),
     );
 
-    if (response.statusCode != 200) {
-      throw Exception('Failed to sign in with email and password');
-    }
-
-    final json = jsonDecode(response.body);
-
-    final tokenPair = _decodeTokenPair(json);
+    final tokenPair = _decodeTokenPair(response);
 
     await _saveTokenPair(tokenPair);
 
@@ -213,20 +214,14 @@ final class AuthDataProviderImpl implements AuthDataProvider {
     required String password,
   }) async {
     final response = await httpClient.post(
-      _buildUri('/auth/register'),
+      _buildUri('auth/register'),
       body: {
         'email': email,
         'password': password,
       },
     );
 
-    if (response.statusCode != 200) {
-      throw Exception('Failed to sign up with email and password');
-    }
-
-    final json = jsonDecode(response.body);
-
-    final tokenPair = _decodeTokenPair(json);
+    final tokenPair = _decodeTokenPair(response);
 
     await _saveTokenPair(tokenPair);
 

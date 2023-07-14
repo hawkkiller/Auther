@@ -33,9 +33,17 @@ class MessageLookup extends MessageLookupByLibrary {
         "exception_occured": m0,
         "password": MessageLookupByLibrary.simpleMessage("Password"),
         "sign_in": MessageLookupByLibrary.simpleMessage("Sign in"),
+        "sign_in_to_auther":
+            MessageLookupByLibrary.simpleMessage("Sign in to Auther"),
         "sign_out": MessageLookupByLibrary.simpleMessage("Sign out"),
         "sign_up": MessageLookupByLibrary.simpleMessage("Sign up"),
+        "sign_up_to_auther":
+            MessageLookupByLibrary.simpleMessage("Sign up to Auther"),
         "unknown_error": m1,
+        "user_exists": MessageLookupByLibrary.simpleMessage(
+            "User with this email already exists"),
+        "user_not_found": MessageLookupByLibrary.simpleMessage(
+            "Email or password is incorrect"),
         "welcome_back": MessageLookupByLibrary.simpleMessage("Welcome back")
       };
 }
