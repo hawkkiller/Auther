@@ -269,8 +269,7 @@ abstract base class _$AuthEventBase {
         signInWithEmailAndPassword: signInWithEmailAndPassword ?? (_) => null,
         signInAnonymously: signInAnonymously ?? (_) => null,
         signOut: signOut ?? (_) => null,
-        signUpWithEmailAndPassword:
-            signUpWithEmailAndPassword ?? (_) => null,
+        signUpWithEmailAndPassword: signUpWithEmailAndPassword ?? (_) => null,
       );
 }
 
@@ -278,7 +277,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> with SetStateMixin {
   AuthBloc(this._authRepository) : super(const AuthState$Idle()) {
     _authRepository.userStream
         .map((user) => AuthState$Idle(user: user))
-        .where((event) => !identical(event, state))
+        .where(($state) => !identical($state, state))
         .listen(setState);
 
     on<AuthEvent>(

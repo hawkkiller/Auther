@@ -1,3 +1,5 @@
+import 'package:auther_client/src/core/router/app_router_scope.dart';
+import 'package:auther_client/src/core/router/router.dart';
 import 'package:auther_client/src/core/utils/mixin/scope_mixin.dart';
 import 'package:auther_client/src/feature/authentication/bloc/auth_bloc.dart';
 import 'package:auther_client/src/feature/authentication/model/user.dart';
@@ -68,6 +70,7 @@ class _AuthenticationScopeState extends State<AuthenticationScope>
 
   @override
   void dispose() {
+    _authBloc.close();
     super.dispose();
   }
 
@@ -76,6 +79,13 @@ class _AuthenticationScopeState extends State<AuthenticationScope>
       setState(() {
         _state = state;
       });
+      final router = AppRouterScope.of(context);
+
+      if (state.user != null) {
+        router.push(const HomeRoute());
+      } else {
+        router.push(const SignInRoute());
+      }
     }
   }
 

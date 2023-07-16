@@ -101,7 +101,7 @@ final class AuthDataProviderImpl implements AuthDataProvider {
   }
 
   Future<void> _saveUser(User user) async {
-    if (user.email == null) {
+    if (user.email != null) {
       await _sharedPreferences.setString(
         'auth.user.email',
         user.email!,
@@ -131,8 +131,10 @@ final class AuthDataProviderImpl implements AuthDataProvider {
 
     if (json
         case {
-          'access_token': final String accessToken,
-          'refresh_token': final String refreshToken,
+          'data': {
+            'accessToken': final String accessToken,
+            'refreshToken': final String refreshToken,
+          },
         }) {
       return (
         accessToken: accessToken,
