@@ -51,6 +51,6 @@ final class AuthException$RefreshTokenExpired extends AuthException {
   const AuthException$RefreshTokenExpired()
       : super(
           message: 'Refresh token expired',
-          code: ErrorCode.refreshTokenExpired,
+          code: ErrorCode.tokenExpired,
         );
 }

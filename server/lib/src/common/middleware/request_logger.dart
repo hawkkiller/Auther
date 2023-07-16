@@ -12,7 +12,11 @@ shelf.Middleware $requestLogger() => (innerHandler) {
             errorCode: ErrorCode.invalidBody,
           );
         } on Object catch (e) {
-          return AppResponse.error(e.toString(), errorCode: ErrorCode.unknown);
+          return AppResponse.error(
+            e.toString(),
+            errorCode: ErrorCode.unknown,
+            statusCode: 500,
+          );
         }
       };
     };

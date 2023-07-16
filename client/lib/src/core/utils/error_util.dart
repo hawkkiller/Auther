@@ -50,7 +50,7 @@ sealed class ErrorUtil {
         ErrorCode.userNotFound => const AuthException$UserNotFound(),
         ErrorCode.invalidBody => const AuthException$InvalidBody(),
         ErrorCode.tokenMalformed => const AuthException$TokenMalformed(),
-        ErrorCode.refreshTokenExpired =>
+        ErrorCode.tokenExpired =>
           const AuthException$RefreshTokenExpired(),
         ErrorCode.unknown => AutherException$Unknown(message: message),
       };

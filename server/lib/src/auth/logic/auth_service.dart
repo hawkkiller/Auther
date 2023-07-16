@@ -1,5 +1,5 @@
 import 'package:auther/src/auth/logic/auth_database.dart';
-import 'package:auther/src/auth/logic/jwt_provider.dart';
+import 'package:auther/src/common/misc/jwt_provider.dart';
 import 'package:shared/model.dart';
 
 abstract interface class AuthService {
@@ -61,8 +61,8 @@ final class AuthServiceImpl implements AuthService {
 
   @override
   TokenPair refresh(String refreshToken) {
-    final userId = _jwtProvider.verifyRefreshToken(refreshToken);
+    final payload = _jwtProvider.verify(refreshToken);
 
-    return _jwtProvider.createTokenPair(userId);
+    return _jwtProvider.createTokenPair(payload.userId);
   }
 }

@@ -29,7 +29,7 @@ sealed class AppResponse {
     Map<String, String> headers = const {
       'content-type': 'application/json; charset=utf-8',
     },
-    Map<String, Object>? body,
+    Map<String, Object?>? body,
   }) =>
       Response(
         statusCode,

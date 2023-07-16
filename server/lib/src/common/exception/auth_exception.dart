@@ -64,15 +64,15 @@ final class AuthException$TokenMalformed implements AuthException {
   String toString() => 'AuthException\$TokenMalformed: $message';
 }
 
-final class AuthException$RefreshTokenExpired implements AuthException {
-  const AuthException$RefreshTokenExpired() : message = 'Refresh token expired';
+final class AuthException$TokenExpired implements AuthException {
+  const AuthException$TokenExpired() : message = 'Token expired';
 
   @override
   final Object? message;
 
   @override
-  ErrorCode get errorCode => ErrorCode.refreshTokenExpired;
+  ErrorCode get errorCode => ErrorCode.tokenExpired;
 
   @override
-  String toString() => 'AuthException\$RefreshTokenExpired: $message';
+  String toString() => 'AuthException\$TokenExpired: $message';
 }

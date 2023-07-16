@@ -3,9 +3,7 @@ import 'dart:io' as io;
 import 'dart:isolate';
 import 'dart:math' as math;
 
-import 'package:auther/src/auth/auth_router.dart';
 import 'package:auther/src/common/database/database.dart';
-import 'package:auther/src/common/router/router.dart';
 import 'package:auther/src/common/server/shared_server.dart';
 import 'package:l/l.dart';
 import 'package:path/path.dart' as p;
@@ -29,9 +27,6 @@ void main(List<String> args) => runZonedGuarded(
         }
 
         final Database db = Database.lazy(file: file, dropDatabase: isDebug());
-        final apiRouter = ApiRouter(
-          authRouter: AuthRouter(),
-        );
         for (var i = 0; i < cpuCount; i++) {
           final receivePort = ReceivePort();
           // ignore: unused_local_variable
@@ -41,7 +36,6 @@ void main(List<String> args) => runZonedGuarded(
           final isolate = SharedServer(
             port: port,
             name: 'Server ${i + 1}',
-            router: apiRouter,
             databaseConnection: connection,
           );
           await isolate();

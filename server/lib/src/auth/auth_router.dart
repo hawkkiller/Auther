@@ -3,14 +3,18 @@ import 'dart:convert';
 import 'package:auther/src/auth/logic/auth_service.dart';
 import 'package:auther/src/common/exception/auth_exception.dart';
 import 'package:auther/src/common/misc/app_response.dart';
+import 'package:auther/src/common/router/router.dart';
 import 'package:shared/model.dart';
 import 'package:shelf/shelf.dart';
 import 'package:shelf_router/shelf_router.dart';
 
 /// Router for auth routes
-class AuthRouter {
-  AuthRouter();
+class AuthRouter implements IRouter {
+  AuthRouter(this.authService);
 
+  final AuthService authService;
+
+  @override
   Handler createRouter() => Router()
     ..post('/signup', _signUp)
     ..post('/signin', _signIn)
@@ -21,7 +25,7 @@ class AuthRouter {
 
     try {
       if (refreshToken != null) {
-        final pair = request.auth.refresh(refreshToken);
+        final pair = authService.refresh(refreshToken);
 
         return AppResponse.ok(
           statusCode: 200,
@@ -54,7 +58,7 @@ class AuthRouter {
             'password': String password,
             'username': String username,
           }) {
-        final token = await request.auth.signUp(
+        final token = await authService.signUp(
           email: email,
           password: password,
           username: username,
@@ -91,7 +95,7 @@ class AuthRouter {
             'email': String email,
             'password': String password,
           }) {
-        final token = await request.auth.signIn(
+        final token = await authService.signIn(
           email: email,
           password: password,
         );
@@ -116,8 +120,4 @@ class AuthRouter {
       errorCode: ErrorCode.invalidBody,
     );
   }
-}
-
-extension _AuthExtension on Request {
-  AuthService get auth => context['authService'] as AuthService;
 }
