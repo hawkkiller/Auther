@@ -30,13 +30,16 @@ final class AuthDatabaseImpl implements AuthDatabase {
     required String email,
   }) async {
     try {
-      final user = await _database.into(_database.userTbl).insertReturning(
+      await _database.into(_database.userTbl).insert(
             UserTblCompanion.insert(
               username: username,
               password: password,
               email: email,
             ),
           );
+      final user = await (_database.select(_database.userTbl)
+            ..where((tbl) => tbl.email.equals(email)))
+          .getSingle();
       return user.id;
     } on DriftRemoteException catch (e) {
       final decodedDriftException = $decodeDriftRemoteException(e);

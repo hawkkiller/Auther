@@ -10,6 +10,12 @@ import 'package:auther/src/common/server/shared_server.dart';
 import 'package:l/l.dart';
 import 'package:path/path.dart' as p;
 
+bool isDebug() {
+  bool inDebugMode = false;
+  assert(inDebugMode = true);
+  return inDebugMode;
+}
+
 void main(List<String> args) => runZonedGuarded(
       () async {
         final cpuCount = math.max(io.Platform.numberOfProcessors, 2);
@@ -22,7 +28,7 @@ void main(List<String> args) => runZonedGuarded(
           file.createSync(recursive: true);
         }
 
-        final Database db = Database.lazy(file: file);
+        final Database db = Database.lazy(file: file, dropDatabase: isDebug());
         final apiRouter = ApiRouter(
           authRouter: AuthRouter(),
         );
