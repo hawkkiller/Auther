@@ -25,7 +25,7 @@ final class OAuthInterceptor extends InterceptorContract {
 class OAuthRetryPolicy extends RetryPolicy {
   OAuthRetryPolicy(this._accessor);
 
-  final OAuthAccessor _accessor;
+  final AuthLogic _accessor;
 
   @override
   Future<bool> shouldAttemptRetryOnResponse(BaseResponse response) async {

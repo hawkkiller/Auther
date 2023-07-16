@@ -14,7 +14,7 @@ abstract interface class AuthTokenAccessor {
   TokenPair? getTokenPair();
 }
 
-abstract interface class OAuthAccessor implements AuthTokenAccessor {
+abstract interface class AuthLogic implements AuthTokenAccessor {
   /// Refreshes the current [TokenPair].
   Future<TokenPair> refreshTokenPair();
 
@@ -23,7 +23,7 @@ abstract interface class OAuthAccessor implements AuthTokenAccessor {
 }
 
 abstract interface class AuthDataProvider
-    implements AuthTokenAccessor, OAuthAccessor {
+    implements AuthTokenAccessor, AuthLogic {
   /// Returns a stream of [TokenPair]s.
   ///
   /// The stream will emit a new [TokenPair] whenever the user's
