@@ -4,7 +4,7 @@ import 'dart:isolate';
 import 'package:auther/src/auth/auth_router.dart';
 import 'package:auther/src/auth/logic/auth_database.dart';
 import 'package:auther/src/auth/logic/auth_service.dart';
-import 'package:auther/src/common/middleware/jwt_middleware.dart';
+import 'package:auther/src/common/middleware/jwt_decode.dart';
 import 'package:auther/src/common/misc/jwt_provider.dart';
 import 'package:auther/src/common/database/database.dart';
 import 'package:auther/src/common/middleware/json_content_type_response.dart';
