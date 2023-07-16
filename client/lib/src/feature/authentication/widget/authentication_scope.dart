@@ -76,15 +76,13 @@ class _AuthenticationScopeState extends State<AuthenticationScope>
 
   void _onAuthStateChanged(AuthState state) {
     if (!identical(state, _state)) {
-      setState(() {
-        _state = state;
-      });
-      final router = AppRouterScope.of(context);
+      setState(() => _state = state);
+      final router = AppRouterScope.of(context, listen: false);
 
       if (state.user != null) {
-        router.push(const HomeRoute());
+        router.replaceAll([const HomeRoute()]);
       } else {
-        router.push(const SignInRoute());
+        router.replaceAll([const SignInRoute()]);
       }
     }
   }
