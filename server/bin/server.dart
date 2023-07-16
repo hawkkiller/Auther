@@ -15,9 +15,14 @@ void main(List<String> args) => runZonedGuarded(
         final cpuCount = math.max(io.Platform.numberOfProcessors, 2);
         final port = 8080;
         final currentDir = io.Directory.current;
-        final Database db = Database.lazy(
-          file: io.File(p.join(currentDir.absolute.path, 'db.sqlite')),
+        final file = io.File(
+          p.join(currentDir.absolute.path, 'data', 'db.sqlite'),
         );
+        if (!file.existsSync()) {
+          file.createSync(recursive: true);
+        }
+
+        final Database db = Database.lazy(file: file);
         final apiRouter = ApiRouter(
           authRouter: AuthRouter(),
         );

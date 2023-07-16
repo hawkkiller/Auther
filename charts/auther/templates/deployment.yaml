@@ -44,9 +44,11 @@ spec:
               containerPort: 8080
 {{/*              containerPort: {{ .Values.service.port }}*/}}
               protocol: TCP
+          {{ if .Values.persistence.enabled }}
           volumeMounts:
             - name: data
               mountPath: /data
+          {{ end }}
           livenessProbe:
             httpGet:
               path: /healthz
@@ -69,7 +71,9 @@ spec:
       tolerations:
         {{- toYaml . | nindent 8 }}
       {{- end }}
+      {{ if .Values.persistence.enabled }}
       volumes:
         - name: data
           persistentVolumeClaim:
             claimName: {{ include "auther.fullname" . }}
+      {{ end }}
