@@ -1,5 +1,5 @@
 import 'package:auther/src/profile/logic/profile_database.dart';
-import 'package:shared/src/model/profile.dart';
+import 'package:shared/model.dart';
 
 abstract interface class ProfileService {
   /// Returns the current user's profile.
