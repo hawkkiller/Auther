@@ -153,11 +153,11 @@ final class AuthDataProviderImpl implements AuthDataProvider {
       throw Exception('Failed to refresh token pair');
     }
 
-    final response = await client.post<Map<String, Object?>>(
+    final response = await client.get<Map<String, Object?>>(
       '/api/v1/auth/refresh',
-      data: jsonEncode({
-        'refresh_token': tokenPair.refreshToken,
-      }),
+      queryParameters: {
+        'refreshToken': tokenPair.refreshToken,
+      },
     );
 
     if (response.statusCode != 200) {

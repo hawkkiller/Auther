@@ -14,9 +14,9 @@ base class OAuthInterceptor extends QueuedInterceptor {
   ) async {
     // If token is expired, refresh it and save it to the storage
     // Then, repeat the original request
-    if (err.response?.statusCode == 401) {
-      final token = await authLogic.refreshTokenPair();
+    if (err.response?.statusCode != 401) {
       try {
+        final token = await authLogic.refreshTokenPair();
         final options = err.requestOptions.copyWith(
           headers: {
             'Authorization': 'Bearer ${token.accessToken}',
