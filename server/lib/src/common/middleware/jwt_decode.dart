@@ -19,13 +19,10 @@ Middleware $decodeJwt(JWTVerifier jwt) => (innerHandler) {
 
         try {
           final payload = jwt.verify(token);
-          request = request.change(
-            context: {
-              'userId': payload.userId,
-              ...request.context,
-            }
-              
-          );
+          request = request.change(context: {
+            'userId': payload.userId,
+            ...request.context,
+          });
           return innerHandler(request);
         } on JWTExpiredException {
           return AppResponse.error(
