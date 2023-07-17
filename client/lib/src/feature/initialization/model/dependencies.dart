@@ -1,4 +1,5 @@
 import 'package:auther_client/src/feature/authentication/data/auth_repository.dart';
+import 'package:rest_client/rest_client.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 /// Dependencies container
@@ -8,6 +9,9 @@ abstract interface class Dependencies {
 
   /// Authentication repository
   abstract final AuthRepository authRepository;
+
+  /// [RestClient] instance
+  abstract final RestClient restClient;
 
   /// Freeze dependencies, so they cannot be modified
   Dependencies freeze();
@@ -26,9 +30,13 @@ final class Dependencies$Mutable implements Dependencies {
   late AuthRepository authRepository;
 
   @override
+  late RestClient restClient;
+
+  @override
   Dependencies freeze() => _Dependencies$Immutable(
         sharedPreferences: sharedPreferences,
         authRepository: authRepository,
+        restClient: restClient,
       );
 }
 
@@ -39,6 +47,7 @@ final class _Dependencies$Immutable implements Dependencies {
   const _Dependencies$Immutable({
     required this.sharedPreferences,
     required this.authRepository,
+    required this.restClient,
   });
 
   @override
@@ -46,6 +55,9 @@ final class _Dependencies$Immutable implements Dependencies {
 
   @override
   final AuthRepository authRepository;
+
+  @override
+  final RestClient restClient;
 
   @override
   Dependencies freeze() => this;

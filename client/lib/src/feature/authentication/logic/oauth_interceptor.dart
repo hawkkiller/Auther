@@ -1,49 +1,49 @@
 import 'package:auther_client/src/feature/authentication/data/auth_data_provider.dart';
-import 'package:http_interceptor/http_interceptor.dart';
+import 'package:dio/dio.dart';
 
-final class OAuthInterceptor extends InterceptorContract {
-  OAuthInterceptor(this._accessor);
+base class OAuthInterceptor extends QueuedInterceptor {
+  OAuthInterceptor(this.authLogic);
 
-  final AuthTokenAccessor _accessor;
+  final AuthLogic authLogic;
+  final client = Dio();
 
   @override
-  Future<BaseRequest> interceptRequest({
-    required BaseRequest request,
-  }) {
-    final token = _accessor.getTokenPair();
-    request.headers['Authorization'] = 'Bearer ${token?.accessToken}';
-    return Future.sync(() => request);
+  Future<void> onError(
+    DioException err,
+    ErrorInterceptorHandler handler,
+  ) async {
+    // If token is expired, refresh it and save it to the storage
+    // Then, repeat the original request
+    if (err.response?.statusCode == 401) {
+      final token = await authLogic.refreshTokenPair();
+      try {
+        final options = err.requestOptions.copyWith(
+          headers: {
+            'Authorization': 'Bearer ${token.accessToken}',
+            ...err.requestOptions.headers,
+          },
+        );
+        final response = await client.fetch<dynamic>(options);
+        handler.resolve(response);
+      } on DioException catch (e) {
+        if (e.response?.statusCode == 401) {
+          await authLogic.signOut();
+          handler.reject(e);
+        } else {
+          handler.next(e);
+        }
+      }
+    } else {
+      handler.next(err);
+    }
   }
 
   @override
-  Future<BaseResponse> interceptResponse({
-    required BaseResponse response,
-  }) =>
-      Future.sync(() => response);
-}
-
-class OAuthRetryPolicy extends RetryPolicy {
-  OAuthRetryPolicy(this._accessor);
-
-  final AuthLogic _accessor;
-
-  @override
-  Future<bool> shouldAttemptRetryOnResponse(BaseResponse response) async {
-    try {
-      if (response.statusCode == 401) {
-        final token = _accessor.getTokenPair()?.refreshToken;
-        if (token == null) {
-          await _accessor.signOut();
-          return false;
-        }
-        await _accessor.refreshTokenPair();
-
-        return true;
-      }
-      return false;
-    } on Object {
-      await _accessor.signOut();
-      rethrow;
-    }
+  void onRequest(RequestOptions options, RequestInterceptorHandler handler) {
+    // Add Authorization header to each request
+    // Also, it would be a good idea to decode token here and check whether it is expired
+    // If it is expired, refresh it and save it to the storage to avoid unnecessary requests
+    options.headers['Authorization'] =
+        'Bearer ${authLogic.getTokenPair()?.accessToken}';
   }
 }

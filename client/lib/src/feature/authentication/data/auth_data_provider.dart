@@ -3,9 +3,8 @@ import 'dart:convert';
 
 import 'package:auther_client/src/core/utils/error_util.dart';
 import 'package:auther_client/src/feature/authentication/model/user.dart';
+import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
-import 'package:http/http.dart' as http;
-import 'package:path/path.dart' as p;
 import 'package:shared/model.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -74,16 +73,17 @@ final class AuthDataProviderImpl implements AuthDataProvider {
   AuthDataProviderImpl({
     required String baseUrl,
     required SharedPreferences sharedPreferences,
-    @visibleForTesting http.Client? httpClient,
+    @visibleForTesting Dio? httpClient,
   })  : _sharedPreferences = sharedPreferences,
-        _baseUrl = baseUrl,
-        httpClient = httpClient ?? http.Client();
+        client = httpClient ??
+            Dio(
+              BaseOptions(
+                baseUrl: baseUrl,
+              ),
+            );
 
   final SharedPreferences _sharedPreferences;
-  final String _baseUrl;
-  final http.Client httpClient;
-
-  Uri _buildUri(String path) => Uri.parse(p.join(_baseUrl, path));
+  final Dio client;
 
   final _tokenPairController = StreamController<TokenPair?>();
   final _userController = StreamController<User?>();
@@ -114,8 +114,8 @@ final class AuthDataProviderImpl implements AuthDataProvider {
     _userController.add(user);
   }
 
-  TokenPair _decodeTokenPair(http.Response response) {
-    final json = jsonDecode(response.body);
+  TokenPair _decodeTokenPair(Response<Map<String, Object?>> response) {
+    final json = response.data;
 
     if (json
         case {
@@ -153,9 +153,9 @@ final class AuthDataProviderImpl implements AuthDataProvider {
       throw Exception('Failed to refresh token pair');
     }
 
-    final response = await httpClient.post(
-      _buildUri('auth/refresh'),
-      body: jsonEncode({
+    final response = await client.post<Map<String, Object?>>(
+      '/api/v1/auth/refresh',
+      data: jsonEncode({
         'refresh_token': tokenPair.refreshToken,
       }),
     );
@@ -172,8 +172,8 @@ final class AuthDataProviderImpl implements AuthDataProvider {
 
   @override
   Future<User> signInAnonymously() async {
-    final response = await httpClient.post(
-      _buildUri('auth/guest'),
+    final response = await client.post<Map<String, Object?>>(
+      '/api/v1/auth/guest',
     );
 
     final tokenPair = _decodeTokenPair(response);
@@ -192,9 +192,9 @@ final class AuthDataProviderImpl implements AuthDataProvider {
     required String email,
     required String password,
   }) async {
-    final response = await httpClient.post(
-      _buildUri('api/auth/signin'),
-      body: jsonEncode({
+    final response = await client.post<Map<String, Object?>>(
+      '/api/v1/auth/signin',
+      data: jsonEncode({
         'email': email,
         'password': password,
       }),
@@ -217,9 +217,9 @@ final class AuthDataProviderImpl implements AuthDataProvider {
     required String password,
     required String username,
   }) async {
-    final response = await httpClient.post(
-      _buildUri('api/auth/signup'),
-      body: jsonEncode({
+    final response = await client.post<Map<String, Object?>>(
+      '/api/v1/auth/signup',
+      data: jsonEncode({
         'email': email,
         'password': password,
         'username': username,

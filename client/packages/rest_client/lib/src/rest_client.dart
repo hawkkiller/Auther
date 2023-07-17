@@ -1,12 +1,11 @@
-import 'package:http/http.dart' as http;
+import 'package:dio/dio.dart';
+import 'package:meta/meta.dart';
 
 import 'package:rest_client/src/rest_client_base.dart';
 
+@immutable
 abstract class RestClient {
-  factory RestClient({
-    required String baseUrl,
-    http.Client? client,
-  }) = RestClientBase;
+  factory RestClient(Dio dio) = RestClientBase;
 
   Future<Map<String, Object?>> get(
     String path, {
