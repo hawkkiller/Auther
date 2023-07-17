@@ -43,7 +43,8 @@ base class OAuthInterceptor extends QueuedInterceptor {
     // Add Authorization header to each request
     // Also, it would be a good idea to decode token here and check whether it is expired
     // If it is expired, refresh it and save it to the storage to avoid unnecessary requests
-    options.headers['Authorization'] =
-        'Bearer ${authLogic.getTokenPair()?.accessToken}';
+    final pair = authLogic.getTokenPair();
+    options.headers['Authorization'] = 'Bearer ${pair?.accessToken}';
+    handler.next(options);
   }
 }

@@ -25,7 +25,7 @@ class ProfileDataSourceImpl implements ProfileDataSource {
   @override
   Future<Profile> loadProfileFromServer() async {
     final response = await restClient.get('/api/v1/profile/me');
-    await sharedPreferences.setString('profile', jsonEncode(response));
+    sharedPreferences.setString('profile', jsonEncode(response)).ignore();
     return Profile.fromJson(response);
   }
 

@@ -13,5 +13,6 @@
   "sign_up_to_auther": "Sign up to Auther",
   "user_exists": "User with this email already exists",
   "user_not_found": "Email or password is incorrect",
-  "username": "Username"
+  "username": "Username",
+  "welcome_user": "Welcome, {value}"
 }

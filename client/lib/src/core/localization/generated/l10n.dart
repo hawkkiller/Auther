@@ -200,6 +200,16 @@ class GeneratedLocalization {
       args: [],
     );
   }
+
+  /// `Welcome, {value}`
+  String welcome_user(Object value) {
+    return Intl.message(
+      'Welcome, $value',
+      name: 'welcome_user',
+      desc: '',
+      args: [value],
+    );
+  }
 }
 
 class AppLocalizationDelegate

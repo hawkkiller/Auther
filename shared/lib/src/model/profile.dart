@@ -19,4 +19,7 @@ final class Profile {
         'username': username,
         'email': email,
       };
+
+  @override
+  String toString() => 'Profile(username: $username, email: $email)';
 }

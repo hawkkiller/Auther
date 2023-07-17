@@ -93,13 +93,32 @@ base class RestClientBase implements RestClient {
         headers: headers,
         body: body,
       );
-      final response = await _client.fetch<Map<String, Object?>>(
-        request,
-      );
+      final response = await _client.fetch<Map<String, Object?>>(request);
 
       if (response.statusCode! > 199 && response.statusCode! < 300) {
         return decodeResponse(response);
-      } else if (response.statusCode! > 499) {
+      }
+
+      throw UnsupportedError('Unsupported statusCode: ${response.statusCode}');
+    } on DioException catch (e) {
+      if (e.type == DioExceptionType.connectionTimeout ||
+          e.type == DioExceptionType.receiveTimeout ||
+          e.type == DioExceptionType.sendTimeout) {
+        throw RestClientException(
+          message: 'Connection timeout',
+          statusCode: e.response?.statusCode,
+        );
+      }
+      final response = e.response;
+
+      if (response == null) {
+        throw RestClientException(
+          message: 'Unknown error',
+          statusCode: e.response?.statusCode,
+        );
+      }
+
+      if (response.statusCode! > 499) {
         if (response.data case {'error': {'message': final String message}}) {
           throw InternalServerException(
             statusCode: response.statusCode,
@@ -122,7 +141,11 @@ base class RestClientBase implements RestClient {
           message: 'Client error',
         );
       }
-      throw UnsupportedError('Unsupported statusCode: ${response.statusCode}');
+
+      Error.throwWithStackTrace(
+        UnsupportedError('Unsupported statusCode: ${response.statusCode}'),
+        e.stackTrace,
+      );
     } on Object catch (e, stackTrace) {
       Error.throwWithStackTrace(
         RestClientException(message: 'Unsupported error: $e'),
@@ -136,7 +159,7 @@ base class RestClientBase implements RestClient {
   Map<String, Object?> decodeResponse(Response<Map<String, Object?>> response) {
     final contentType =
         response.headers['content-type'] ?? response.headers['Content-Type'];
-    if (contentType?.contains('application/json') ?? false) {
+    if (contentType.toString().contains('application/json')) {
       final json = response.data ?? const {};
       try {
         if (json case {'error': {'message': final String message}}) {
@@ -170,7 +193,7 @@ base class RestClientBase implements RestClient {
         ),
         StackTrace.fromString(
           '${StackTrace.current}\n'
-          'Headers: "${jsonEncode(response.headers)}"',
+          'Headers: "${jsonEncode(response.headers.map)}"',
         ),
       );
     }
@@ -188,6 +211,7 @@ base class RestClientBase implements RestClient {
     final request = RequestOptions(
       method: method,
       path: path,
+      baseUrl: _client.options.baseUrl,
       queryParameters: queryParams,
       headers: headers,
       data: jsonEncode(body),

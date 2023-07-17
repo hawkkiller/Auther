@@ -1,6 +1,6 @@
 name: auther
 description: A server app using the shelf package and Docker.
-version: 0.0.11
+version: 0.0.12
 publish_to: none
 
 environment:

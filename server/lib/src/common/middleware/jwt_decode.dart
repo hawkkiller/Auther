@@ -31,11 +31,13 @@ Middleware $decodeJwt(JWTVerifier jwt) => (innerHandler) {
           return AppResponse.error(
             'Token expired',
             errorCode: ErrorCode.tokenExpired,
+            statusCode: 401,
           );
         } on Object catch (e) {
           return AppResponse.error(
             'Failed to decode token: $e',
             errorCode: ErrorCode.tokenMalformed,
+            statusCode: 401,
           );
         }
       };

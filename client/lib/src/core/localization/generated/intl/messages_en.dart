@@ -24,6 +24,8 @@ class MessageLookup extends MessageLookupByLibrary {
 
   static String m1(value) => "Unknown error: \$${value}";
 
+  static String m2(value) => "Welcome, ${value}";
+
   final messages = _notInlinedMessages(_notInlinedMessages);
   static Map<String, Function> _notInlinedMessages(_) => <String, Function>{
         "app_title": MessageLookupByLibrary.simpleMessage("Auther"),
@@ -45,6 +47,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "user_not_found": MessageLookupByLibrary.simpleMessage(
             "Email or password is incorrect"),
         "username": MessageLookupByLibrary.simpleMessage("Username"),
-        "welcome_back": MessageLookupByLibrary.simpleMessage("Welcome back")
+        "welcome_back": MessageLookupByLibrary.simpleMessage("Welcome back"),
+        "welcome_user": m2
       };
 }

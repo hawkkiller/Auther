@@ -28,7 +28,11 @@ mixin InitializationSteps {
         sharedPreferences: progress.dependencies.sharedPreferences,
       );
       final restClient = RestClient(
-        Dio()..interceptors.add(OAuthInterceptor(authDataProvider)),
+        Dio(
+          BaseOptions(
+            baseUrl: progress.environmentStore.baseUrl,
+          ),
+        )..interceptors.add(OAuthInterceptor(authDataProvider)),
       );
       progress.dependencies.restClient = restClient;
       final authRepository = AuthRepositoryImpl(

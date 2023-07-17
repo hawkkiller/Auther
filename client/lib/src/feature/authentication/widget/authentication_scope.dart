@@ -37,7 +37,7 @@ abstract mixin class AuthenticationController {
 }
 
 class AuthenticationScope extends StatefulWidget {
-  const AuthenticationScope({required this.child, super.key});
+  const AuthenticationScope(this.child, {super.key});
 
   final Widget child;
 

@@ -14,7 +14,7 @@ abstract mixin class ProfileController {
 }
 
 class ProfileScope extends StatefulWidget {
-  const ProfileScope({required this.child, super.key});
+  const ProfileScope(this.child, {super.key});
 
   final Widget child;
 

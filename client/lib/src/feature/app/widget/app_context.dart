@@ -1,7 +1,9 @@
 import 'package:auther_client/src/core/localization/app_localization.dart';
 import 'package:auther_client/src/core/router/app_router_scope.dart';
 import 'package:auther_client/src/core/theme/color_schemes.dart';
+import 'package:auther_client/src/core/widget/scope_widgets.dart';
 import 'package:auther_client/src/feature/authentication/widget/authentication_scope.dart';
+import 'package:auther_client/src/feature/profile/widget/profile_scope.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 
@@ -30,7 +32,15 @@ class _AppContextState extends State<AppContext> {
       darkTheme: darkThemeData,
       // TODO(mlazebny): implement locale change.
       locale: const Locale('en', 'US'),
-      builder: (context, child) => AuthenticationScope(child: child!),
+      builder: (context, child) => ScopesProvider(
+        providers: const [
+          ScopeProvider(
+            buildScope: AuthenticationScope.new,
+          ),
+          ScopeProvider(buildScope: ProfileScope.new),
+        ],
+        child: child!,
+      ),
     );
   }
 }
