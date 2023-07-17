@@ -4,6 +4,8 @@ import 'package:auther_client/src/feature/authentication/data/auth_data_provider
 import 'package:auther_client/src/feature/authentication/data/auth_repository.dart';
 import 'package:auther_client/src/feature/authentication/logic/oauth_interceptor.dart';
 import 'package:auther_client/src/feature/initialization/model/initialization_progress.dart';
+import 'package:auther_client/src/feature/profile/data/profile_data_source.dart';
+import 'package:auther_client/src/feature/profile/data/profile_repository.dart';
 import 'package:dio/dio.dart';
 import 'package:rest_client/rest_client.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -33,6 +35,16 @@ mixin InitializationSteps {
         authDataProvider: authDataProvider,
       );
       progress.dependencies.authRepository = authRepository;
+    },
+    'Profile Repository': (progress) {
+      final dataSource = ProfileDataSourceImpl(
+        sharedPreferences: progress.dependencies.sharedPreferences,
+        restClient: progress.dependencies.restClient,
+      );
+      final profileRepository = ProfileRepositoryImpl(
+        dataSource: dataSource,
+      );
+      progress.dependencies.profileRepository = profileRepository;
     },
   };
 }

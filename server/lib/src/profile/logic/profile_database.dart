@@ -1,6 +1,6 @@
 import 'package:auther/src/common/database/database.dart';
 import 'package:auther/src/common/exception/auth_exception.dart';
-import 'package:auther/src/profile/model/profile.dart';
+import 'package:shared/model.dart';
 
 abstract interface class ProfileDatabase {
   /// Returns the current user's profile.
