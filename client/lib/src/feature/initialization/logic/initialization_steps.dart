@@ -32,7 +32,13 @@ mixin InitializationSteps {
           BaseOptions(
             baseUrl: progress.environmentStore.baseUrl,
           ),
-        )..interceptors.add(OAuthInterceptor(authDataProvider)),
+        )..interceptors.add(
+            OAuthInterceptor(
+              refresh: authDataProvider.refreshTokenPair,
+              loadTokens: authDataProvider.getTokenPair,
+              clearTokens: authDataProvider.signOut,
+            ),
+          ),
       );
       progress.dependencies.restClient = restClient;
       final authRepository = AuthRepositoryImpl(

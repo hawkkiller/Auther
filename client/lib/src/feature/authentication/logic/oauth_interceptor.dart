@@ -1,10 +1,16 @@
-import 'package:auther_client/src/feature/authentication/data/auth_data_provider.dart';
 import 'package:dio/dio.dart';
+import 'package:shared/model.dart';
 
 base class OAuthInterceptor extends QueuedInterceptor {
-  OAuthInterceptor(this.authLogic);
+  OAuthInterceptor({
+    required this.refresh,
+    required this.loadTokens,
+    required this.clearTokens,
+  });
 
-  final AuthLogic authLogic;
+  final Future<TokenPair> Function() refresh;
+  final TokenPair? Function() loadTokens;
+  final Future<void> Function() clearTokens;
   final client = Dio();
 
   @override
@@ -14,9 +20,9 @@ base class OAuthInterceptor extends QueuedInterceptor {
   ) async {
     // If token is expired, refresh it and save it to the storage
     // Then, repeat the original request
-    if (err.response?.statusCode != 401) {
+    if (err.response?.statusCode == 401) {
       try {
-        final token = await authLogic.refreshTokenPair();
+        final token = await refresh();
         final options = err.requestOptions.copyWith(
           headers: {
             ...err.requestOptions.headers,
@@ -27,7 +33,7 @@ base class OAuthInterceptor extends QueuedInterceptor {
         handler.resolve(response);
       } on DioException catch (e) {
         if (e.response?.statusCode == 401) {
-          // await authLogic.signOut();
+          // await clearTokens();
           handler.reject(e);
         } else {
           handler.next(e);
@@ -43,7 +49,7 @@ base class OAuthInterceptor extends QueuedInterceptor {
     // Add Authorization header to each request
     // Also, it would be a good idea to decode token here and check whether it is expired
     // If it is expired, refresh it and save it to the storage to avoid unnecessary requests
-    final pair = authLogic.getTokenPair();
+    final pair = loadTokens();
     options.headers['Authorization'] = 'Bearer ${pair?.accessToken}';
     handler.next(options);
   }

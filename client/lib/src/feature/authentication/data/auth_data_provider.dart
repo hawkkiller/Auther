@@ -8,21 +8,16 @@ import 'package:flutter/material.dart';
 import 'package:shared/model.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-abstract interface class AuthTokenAccessor {
+abstract interface class AuthDataProvider {
   /// Returns the current [TokenPair].
   TokenPair? getTokenPair();
-}
 
-abstract interface class AuthLogic implements AuthTokenAccessor {
   /// Refreshes the current [TokenPair].
   Future<TokenPair> refreshTokenPair();
 
   /// Clear the current [TokenPair].
   Future<void> signOut();
-}
 
-abstract interface class AuthDataProvider
-    implements AuthTokenAccessor, AuthLogic {
   /// Returns a stream of [TokenPair]s.
   ///
   /// The stream will emit a new [TokenPair] whenever the user's
