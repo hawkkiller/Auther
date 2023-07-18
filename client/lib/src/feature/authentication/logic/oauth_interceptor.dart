@@ -19,15 +19,15 @@ base class OAuthInterceptor extends QueuedInterceptor {
         final token = await authLogic.refreshTokenPair();
         final options = err.requestOptions.copyWith(
           headers: {
-            'Authorization': 'Bearer ${token.accessToken}',
             ...err.requestOptions.headers,
+            'Authorization': 'Bearer ${token.accessToken}',
           },
         );
         final response = await client.fetch<dynamic>(options);
         handler.resolve(response);
       } on DioException catch (e) {
         if (e.response?.statusCode == 401) {
-          await authLogic.signOut();
+          // await authLogic.signOut();
           handler.reject(e);
         } else {
           handler.next(e);
