@@ -355,6 +355,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> with SetStateMixin {
   ) async {
     emit(AuthState.processing(user: state.user));
     try {
+      await _authRepository.signOut();
       emit(
         const AuthState.idle(),
       );
