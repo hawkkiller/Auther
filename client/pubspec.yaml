@@ -34,7 +34,7 @@ dependencies:
   auto_route: 7.7.0
 
   # Network
-  dio: 5.2.1+1
+  dio: 5.3.2
 
   # Firebase
   firebase_analytics: 10.4.3
