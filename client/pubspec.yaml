@@ -52,7 +52,7 @@ dependencies:
   l: 4.0.2
 
   # Lints
-  sizzle_lints: 1.0.10
+  sizzle_lints: 2.0.1
 
   # Utils
   pure: 0.2.0
