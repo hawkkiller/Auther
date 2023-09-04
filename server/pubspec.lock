@@ -189,10 +189,10 @@ packages:
     dependency: "direct main"
     description:
       name: dart_jsonwebtoken
-      sha256: e878f2ee660aba6536d23aca710a475b2dd1ccf61130e2341fbb07cc98442f4a
+      sha256: "1c36cca992d210230d2a4221adeb2c3131d897da1a92278f3bbd58a5e649e00a"
       url: "https://pub.dev"
     source: hosted
-    version: "2.8.2"
+    version: "2.11.0"
   dart_style:
     dependency: transitive
     description:
