@@ -16,7 +16,7 @@ dependencies:
   # Packages
   shared:
     path: ../shared
-  drift: ^2.9.0
+  drift: ^2.12.0
   meta: ^1.9.1
   path: ^1.8.3
 
