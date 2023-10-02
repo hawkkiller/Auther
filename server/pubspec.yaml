@@ -8,7 +8,7 @@ environment:
 
 dependencies:
   args: ^2.3.0
-  dart_jsonwebtoken: ^2.8.2
+  dart_jsonwebtoken: ^2.12.0
   l: ^4.0.2
   shelf: ^1.4.0
   shelf_router: ^1.1.0
