@@ -21,3 +21,23 @@ tasks:
       Watch codegen
     cmds:
       - dart run build_runner watch --delete-conflicting-outputs
+
+  # Template-related, safe to be removed for production
+  tmpl:init:
+    desc: Initialize template for development
+    summary: |
+      Initialize template for development.
+      Safe to be deleted for production.
+    deps:
+      - tmpl:git:config
+    cmds:
+      - flutter create .
+
+  tmpl:git:config:
+    desc: Configure git for template development
+    summary: |
+      Configure git for template development. 
+      Safe to be deleted for production.
+    cmds:
+      - git config core.excludesfile .gitignore-dev
+  # Template-related, safe to be removed for production

@@ -1,42 +1,41 @@
-import 'package:auther_client/src/core/router/app_router_scope.dart';
-import 'package:auther_client/src/core/widget/scope_widgets.dart';
-import 'package:auther_client/src/feature/app/widget/app_context.dart';
-import 'package:auther_client/src/feature/initialization/model/dependencies.dart';
-import 'package:auther_client/src/feature/initialization/widget/dependencies_scope.dart';
 import 'package:flutter/material.dart';
 import 'package:sentry_flutter/sentry_flutter.dart';
+import 'package:sizzle_starter/src/feature/app/widget/material_context.dart';
+import 'package:sizzle_starter/src/feature/auth/widget/auth_scope.dart';
+import 'package:sizzle_starter/src/feature/initialization/logic/initialization_processor.dart';
+import 'package:sizzle_starter/src/feature/initialization/model/dependencies.dart';
+import 'package:sizzle_starter/src/feature/initialization/widget/dependencies_scope.dart';
+import 'package:sizzle_starter/src/feature/settings/widget/settings_scope.dart';
 
-/// A widget which is responsible for running the app.
+/// {@template app}
+/// [App] is an entry point to the application.
+///
+/// All the global scopes should be defined there.
+/// {@endtemplate}
 class App extends StatelessWidget {
-  const App({
-    required this.result,
-    super.key,
-  });
+  /// {@macro app}
+  const App({required this.result, super.key});
 
-  void run() => runApp(
-        DefaultAssetBundle(
-          bundle: SentryAssetBundle(),
-          child: this,
-        ),
-      );
+  /// Running this function will result in attaching
+  /// corresponding [RenderObject] to the root of the tree.
+  void attach([VoidCallback? callback]) {
+    callback?.call();
+    runApp(this);
+  }
 
+  /// The initialization result from the [InitializationProcessor]
   final InitializationResult result;
 
   @override
-  Widget build(BuildContext context) => ScopesProvider(
-        providers: [
-          ScopeProvider(
-            buildScope: (child) => DependenciesScope(
-              dependencies: result.dependencies,
-              child: child,
+  Widget build(BuildContext context) => DefaultAssetBundle(
+        bundle: SentryAssetBundle(),
+        child: DependenciesScope(
+          dependencies: result.dependencies,
+          child: const SettingsScope(
+            child: AuthScope(
+              child: MaterialContext(),
             ),
           ),
-          ScopeProvider(
-            buildScope: (child) => AppRouterScope(
-              child: child,
-            ),
-          ),
-        ],
-        child: const AppContext(),
+        ),
       );
 }

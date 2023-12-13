@@ -1,44 +1,34 @@
-import 'package:auther_client/src/core/utils/mixin/scope_mixin.dart';
-import 'package:auther_client/src/feature/initialization/model/dependencies.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:sizzle_starter/src/core/utils/extensions/context_extension.dart';
+import 'package:sizzle_starter/src/feature/initialization/model/dependencies.dart';
 
-/// The container for all the dependencies
-abstract class StoresContainer {
-  Dependencies get dependencies;
-}
-
+/// {@template dependencies_scope}
 /// A widget which is responsible for providing the dependencies.
-class DependenciesScope extends InheritedWidget
-    with ScopeMixin
-    implements StoresContainer {
+/// {@endtemplate}
+class DependenciesScope extends InheritedWidget {
+  /// {@macro dependencies_scope}
   const DependenciesScope({
     required super.child,
     required this.dependencies,
     super.key,
   });
 
-  @override
+  /// The dependencies
   final Dependencies dependencies;
 
-  /// Get only dependencies from the widget
-  static Dependencies dependenciesOf(BuildContext context) =>
-      _maybeOf(context)?.dependencies ??
-      ScopeMixin.notFoundInheritedWidgetOfExactType<DependenciesScope>();
+  /// Get the dependencies from the [context].
+  static Dependencies of(BuildContext context) =>
+      context.inhOf<DependenciesScope>(listen: false).dependencies;
 
-  /// Maybe get the dependencies from the widget
-  ///
-  /// The dependencies may not be present if they are not provided higher up in the tree.
-  static StoresContainer? _maybeOf(BuildContext context) =>
-      ScopeMixin.scopeMaybeOf<DependenciesScope>(
-        context,
-        listen: false,
-      );
-
-  /// Get all the initialized dependencies
-  static StoresContainer of(BuildContext context) =>
-      _maybeOf(context) ??
-      ScopeMixin.notFoundInheritedWidgetOfExactType<DependenciesScope>();
+  @override
+  void debugFillProperties(DiagnosticPropertiesBuilder properties) {
+    super.debugFillProperties(properties);
+    properties.add(
+      DiagnosticsProperty<Dependencies>('dependencies', dependencies),
+    );
+  }
 
   @override
   bool updateShouldNotify(DependenciesScope oldWidget) => false;

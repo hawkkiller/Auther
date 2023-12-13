@@ -1,28 +1,10 @@
-import 'package:auther_client/src/feature/initialization/model/enum/environment.dart';
+/// {@template environment_store}
+/// Environment store
+/// {@endtemplate}
+class EnvironmentStore {
+  /// {@macro environment_store}
+  const EnvironmentStore();
 
-abstract class IEnvironmentStore {
-  abstract final Environment environment;
-  abstract final String sentryDsn;
-  abstract final String baseUrl;
-
-  bool get isProduction => environment == Environment.prod;
-}
-
-class EnvironmentStore extends IEnvironmentStore {
-  EnvironmentStore();
-
-  static final _env = Environment.fromEnvironment(
-    const String.fromEnvironment('ENV'),
-  );
-
-  @override
-  Environment get environment => _env;
-
-  @override
-  String get baseUrl => const bool.hasEnvironment('BASE_URL')
-      ? const String.fromEnvironment('BASE_URL')
-      : (throw Exception('BASE_URL not set'));
-
-  @override
-  String get sentryDsn => const String.fromEnvironment('SENTRY_DSN');
+  /// The Sentry DSN.
+  String get sentryDsn => const String.fromEnvironment('sentry_dsn');
 }

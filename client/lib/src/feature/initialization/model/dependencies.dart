@@ -1,88 +1,52 @@
-import 'package:auther_client/src/feature/authentication/data/auth_repository.dart';
-import 'package:auther_client/src/feature/profile/data/profile_repository.dart';
-import 'package:rest_client/rest_client.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:sizzle_starter/src/feature/auth/bloc/auth_bloc.dart';
+import 'package:sizzle_starter/src/feature/auth/data/auth_repository.dart';
+import 'package:sizzle_starter/src/feature/settings/data/settings_repository.dart';
 
+/// {@template dependencies}
 /// Dependencies container
-abstract interface class Dependencies {
+/// {@endtemplate}
+base class Dependencies {
+  /// {@macro dependencies}
+  Dependencies();
+
   /// Shared preferences
-  abstract final SharedPreferences sharedPreferences;
+  late final SharedPreferences sharedPreferences;
+
+  /// Theme repository
+  late final SettingsRepository settingsRepository;
 
   /// Authentication repository
-  abstract final AuthRepository authRepository;
+  late final AuthRepository authRepository;
 
-  /// [RestClient] instance
-  abstract final RestClient restClient;
-
-  /// [ProfileRepository] instance
-  abstract final ProfileRepository profileRepository;
-
-  /// Freeze dependencies, so they cannot be modified
-  Dependencies freeze();
+  /// Authentication bloc
+  late final AuthBloc authBloc;
 }
 
-/// Mutable version of dependencies
-///
-/// Used to build dependencies
-final class Dependencies$Mutable implements Dependencies {
-  Dependencies$Mutable();
-
-  @override
-  late SharedPreferences sharedPreferences;
-
-  @override
-  late AuthRepository authRepository;
-
-  @override
-  late RestClient restClient;
-
-  @override
-  late ProfileRepository profileRepository;
-
-  @override
-  Dependencies freeze() => _Dependencies$Immutable(
-        sharedPreferences: sharedPreferences,
-        authRepository: authRepository,
-        restClient: restClient,
-        profileRepository: profileRepository,
-      );
-}
-
-/// Immutable version of dependencies
-///
-/// Used to store dependencies
-final class _Dependencies$Immutable implements Dependencies {
-  const _Dependencies$Immutable({
-    required this.sharedPreferences,
-    required this.authRepository,
-    required this.restClient,
-    required this.profileRepository,
-  });
-
-  @override
-  final SharedPreferences sharedPreferences;
-
-  @override
-  final AuthRepository authRepository;
-
-  @override
-  final RestClient restClient;
-
-  @override
-  final ProfileRepository profileRepository;
-
-  @override
-  Dependencies freeze() => this;
-}
-
+/// {@template initialization_result}
+/// Result of initialization
+/// {@endtemplate}
 final class InitializationResult {
+  /// {@macro initialization_result}
   const InitializationResult({
     required this.dependencies,
     required this.stepCount,
     required this.msSpent,
   });
 
+  /// The dependencies
   final Dependencies dependencies;
+
+  /// The number of steps
   final int stepCount;
+
+  /// The number of milliseconds spent
   final int msSpent;
+
+  @override
+  String toString() => '$InitializationResult('
+      'dependencies: $dependencies, '
+      'stepCount: $stepCount, '
+      'msSpent: $msSpent'
+      ')';
 }
