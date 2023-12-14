@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:sizzle_starter/src/core/router/routes.dart';
 import 'package:sizzle_starter/src/feature/auth/widget/auth_scope.dart';
 
 /// {@template signin_screen}
@@ -78,6 +79,12 @@ class _SignInScreenState extends State<SignInScreen> {
                   child: const Text('Sign in'),
                 );
               },
+            ),
+            Center(
+              child: TextButton(
+                onPressed: () => SignUpRoute().go(context),
+                child: const Text("Don't have an account? Sign up."),
+              ),
             ),
           ],
         ),

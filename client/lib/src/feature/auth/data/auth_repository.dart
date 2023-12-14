@@ -13,6 +13,7 @@ abstract interface class AuthRepository {
   Future<void> signUpWithEmailAndPassword({
     required String email,
     required String password,
+    required String username,
   });
 
   /// Sign out the current user.
@@ -55,9 +56,11 @@ final class AuthRepositoryImpl implements AuthRepository {
   Future<void> signUpWithEmailAndPassword({
     required String email,
     required String password,
+    required String username
   }) =>
       _authDataSource.signUpWithEmailAndPassword(
         email: email,
         password: password,
+        username: username,
       );
 }

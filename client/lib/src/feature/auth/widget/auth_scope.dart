@@ -11,7 +11,11 @@ abstract interface class AuthController {
   void signInWithEmailAndPassword(String email, String password);
 
   /// Signs up the user with the given [email] and [password].
-  void signUpWithEmailAndPassword(String email, String password);
+  void signUpWithEmailAndPassword({
+    required String email,
+    required String password,
+    required String username,
+  });
 
   /// Signs out the current user.
   void signOut();
@@ -80,11 +84,16 @@ class _AuthScopeState extends State<AuthScope> implements AuthController {
   }
 
   @override
-  void signUpWithEmailAndPassword(String email, String password) {
+  void signUpWithEmailAndPassword({
+    required String email,
+    required String password,
+    required String username,
+  }) {
     _authBloc.add(
       AuthEvent.signUpWithEmailAndPassword(
         email: email,
         password: password,
+        username: username,
       ),
     );
   }

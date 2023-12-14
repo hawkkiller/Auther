@@ -2,6 +2,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:sizzle_starter/src/core/components/rest_client/rest_client.dart';
 import 'package:sizzle_starter/src/feature/auth/bloc/auth_bloc.dart';
 import 'package:sizzle_starter/src/feature/auth/data/auth_repository.dart';
+import 'package:sizzle_starter/src/feature/home/data/profile_repository.dart';
 import 'package:sizzle_starter/src/feature/settings/data/settings_repository.dart';
 
 /// {@template dependencies}
@@ -25,6 +26,9 @@ base class Dependencies {
 
   /// REST client
   late final RestClient restClient;
+
+  /// Profile repository
+  late final ProfileRepository profileRepository;
 }
 
 /// {@template initialization_result}

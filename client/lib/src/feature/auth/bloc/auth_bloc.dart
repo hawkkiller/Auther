@@ -21,6 +21,7 @@ sealed class AuthEvent with _$AuthEvent {
   const factory AuthEvent.signUpWithEmailAndPassword({
     required String email,
     required String password,
+    required String username,
   }) = _SignUpAuthEvent;
 
   /// Signs out the current user.
@@ -99,6 +100,11 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> with SetStateMixin {
   ) async {
     emit(AuthState.processing(status: state.status));
     try {
+      await _repository.signUpWithEmailAndPassword(
+        email: event.email,
+        password: event.password,
+        username: event.username,
+      );
       emit(const AuthState.idle(status: AuthenticationStatus.authenticated));
     } on Object catch (e) {
       emit(

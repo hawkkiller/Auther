@@ -9,6 +9,8 @@ import 'package:sizzle_starter/src/feature/auth/bloc/auth_bloc.dart';
 import 'package:sizzle_starter/src/feature/auth/data/auth_datasource.dart';
 import 'package:sizzle_starter/src/feature/auth/data/auth_repository.dart';
 import 'package:sizzle_starter/src/feature/auth/data/refresh_client.dart';
+import 'package:sizzle_starter/src/feature/home/data/profile_datasource.dart';
+import 'package:sizzle_starter/src/feature/home/data/profile_repository.dart';
 import 'package:sizzle_starter/src/feature/initialization/model/dependencies.dart';
 import 'package:sizzle_starter/src/feature/initialization/model/initialization_progress.dart';
 import 'package:sizzle_starter/src/feature/settings/data/locale_datasource.dart';
@@ -90,6 +92,13 @@ mixin InitializationSteps {
           .first;
       logger.verbose('Resolved auth state: $resolvedState');
       progress.dependencies.authBloc = authBloc;
+    },
+    'Profile Repository': (progress) async {
+      final restClient = progress.dependencies.restClient;
+      final profileRepository = ProfileRepositoryImpl(
+        ProfileDataSourceImpl(restClient),
+      );
+      progress.dependencies.profileRepository = profileRepository;
     },
   };
 }

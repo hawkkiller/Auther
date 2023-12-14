@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:sizzle_starter/src/feature/auth/widget/signin_screen.dart';
+import 'package:sizzle_starter/src/feature/auth/widget/signup_screen.dart';
 import 'package:sizzle_starter/src/feature/home/widget/home_screen.dart';
 
 part 'routes.g.dart';
@@ -26,5 +27,6 @@ class SignInRoute extends GoRouteData {
 @TypedGoRoute<SignUpRoute>(path: '/signup')
 class SignUpRoute extends GoRouteData {
   @override
-  Widget build(BuildContext context, GoRouterState state) => const HomeScreen();
+  Widget build(BuildContext context, GoRouterState state) =>
+      const SignupScreen();
 }

@@ -18,6 +18,7 @@ abstract interface class AuthDataSource {
   Future<void> signUpWithEmailAndPassword({
     required String email,
     required String password,
+    required String username,
   });
 
   /// Sign out the current user.
@@ -64,12 +65,14 @@ final class AuthDataSourceImpl
   Future<void> signUpWithEmailAndPassword({
     required String email,
     required String password,
+    required String username,
   }) async {
     final response = await client.post<Map<String, Object?>>(
       '/api/v1/auth/signup',
       data: {
         'email': email,
         'password': password,
+        'username': username,
       },
     );
     await _handleAuthResponse(response.data);

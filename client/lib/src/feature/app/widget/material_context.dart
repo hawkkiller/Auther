@@ -20,6 +20,7 @@ class MaterialContext extends StatefulWidget {
 
 class _MaterialContextState extends State<MaterialContext> {
   late final router = GoRouter(
+    debugLogDiagnostics: true,
     routes: $appRoutes,
     redirect: (context, state) {
       if (state.matchedLocation == '/') {
@@ -30,11 +31,19 @@ class _MaterialContextState extends State<MaterialContext> {
 
       final loggedIn = auth.authenticated;
 
-      if (!loggedIn) {
+      if (!loggedIn &&
+          (state.matchedLocation != '/signup' &&
+              state.matchedLocation != '/signin')) {
         return '/signin';
       }
 
-      return '/home';
+      if (loggedIn &&
+          (state.matchedLocation == '/signup' ||
+              state.matchedLocation == '/signin')) {
+        return '/home';
+      }
+
+      return null;
     },
   );
 
