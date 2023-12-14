@@ -195,7 +195,7 @@ void main() {
 
         final handler = MockResponseInterceptorHandler();
 
-        when(() => refreshClient.refresh(any())).thenThrow(
+        when(() => refreshClient.refreshTokenPair(any())).thenThrow(
           Exception('Test Error'),
         );
 
@@ -230,7 +230,7 @@ void main() {
         final interceptor = OAuthInterceptor(
           storage: storage,
           refreshClient: refreshClient,
-          baseClient: baseClient,
+          retryClient: baseClient,
         );
         final response = Response(
           requestOptions: RequestOptions(path: '/test'),
@@ -240,7 +240,7 @@ void main() {
 
         final handler = MockResponseInterceptorHandler();
 
-        when(() => refreshClient.refresh(any())).thenAnswer(
+        when(() => refreshClient.refreshTokenPair(any())).thenAnswer(
           (_) => Future.value(mockTokenPair),
         );
 

@@ -87,10 +87,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> with SetStateMixin {
       emit(const AuthState.idle(status: AuthenticationStatus.authenticated));
     } on Object catch (e) {
       emit(
-        AuthState.idle(
-          status: state.status,
-          error: e,
-        ),
+        AuthState.idle(status: state.status, error: e),
       );
       rethrow;
     }
@@ -105,10 +102,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> with SetStateMixin {
       emit(const AuthState.idle(status: AuthenticationStatus.authenticated));
     } on Object catch (e) {
       emit(
-        AuthState.idle(
-          status: state.status,
-          error: e,
-        ),
+        AuthState.idle(status: state.status, error: e),
       );
       rethrow;
     }
@@ -125,10 +119,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> with SetStateMixin {
       emit(const AuthState.idle(status: AuthenticationStatus.unauthenticated));
     } on Object catch (e) {
       emit(
-        AuthState.idle(
-          status: state.status,
-          error: e,
-        ),
+        AuthState.idle(status: state.status, error: e),
       );
       rethrow;
     }

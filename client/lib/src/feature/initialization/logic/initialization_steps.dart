@@ -44,24 +44,35 @@ mixin InitializationSteps {
       );
     },
     'AuthRepository': (progress) async {
-      final dio = Dio();
+      final interceptedDio = Dio();
+      final justDio = Dio(
+        BaseOptions(
+          baseUrl: 'https://auther.lazebny.io/',
+          headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json',
+          },
+        ),
+      );
 
       final restClient = RestClientDio(
         baseUrl: 'https://auther.lazebny.io/',
-        dio: dio,
+        dio: interceptedDio,
       );
 
       final authDataSource = AuthDataSourceImpl(
-        client: restClient,
+        client: justDio,
         sharedPreferences: progress.dependencies.sharedPreferences,
       );
 
+      final refreshClient = RefreshClientImpl(client: justDio);
+
       final oauthInterceptor = OAuthInterceptor(
         storage: authDataSource,
-        refreshClient: RefreshClientImpl(),
+        refreshClient: refreshClient,
       );
 
-      dio.interceptors.add(oauthInterceptor);
+      interceptedDio.interceptors.add(oauthInterceptor);
 
       final authRepository = AuthRepositoryImpl(
         authDataSource: authDataSource,
@@ -69,6 +80,7 @@ mixin InitializationSteps {
       );
 
       progress.dependencies.authRepository = authRepository;
+      progress.dependencies.restClient = restClient;
     },
     'AuthBloc': (progress) async {
       final authRepository = progress.dependencies.authRepository;

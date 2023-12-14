@@ -1,4 +1,5 @@
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:sizzle_starter/src/core/components/rest_client/rest_client.dart';
 import 'package:sizzle_starter/src/feature/auth/bloc/auth_bloc.dart';
 import 'package:sizzle_starter/src/feature/auth/data/auth_repository.dart';
 import 'package:sizzle_starter/src/feature/settings/data/settings_repository.dart';
@@ -21,6 +22,9 @@ base class Dependencies {
 
   /// Authentication bloc
   late final AuthBloc authBloc;
+
+  /// REST client
+  late final RestClient restClient;
 }
 
 /// {@template initialization_result}

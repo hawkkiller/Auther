@@ -55,8 +55,9 @@ final class AuthRepositoryImpl implements AuthRepository {
   Future<void> signUpWithEmailAndPassword({
     required String email,
     required String password,
-  }) {
-    // TODO: implement signUpWithEmailAndPassword
-    throw UnimplementedError();
-  }
+  }) =>
+      _authDataSource.signUpWithEmailAndPassword(
+        email: email,
+        password: password,
+      );
 }

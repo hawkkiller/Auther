@@ -61,17 +61,18 @@ class OAuthInterceptor extends QueuedInterceptor
   OAuthInterceptor({
     required this.storage,
     required this.refreshClient,
-    Dio? baseClient,
-  }) : _dio = baseClient ?? Dio() {
+    @visibleForTesting Dio? retryClient,
+  }) : retryClient = retryClient ?? Dio() {
     _storageSubscription = storage.getTokenPairStream().listen(
           _updateAuthenticationStatus,
         );
+
+    // Preload the token pair
     getTokenPair().ignore();
   }
 
-  StreamSubscription<TokenPair?>? _storageSubscription;
-
-  final Dio _dio;
+  /// [Dio] client used to retry the request.
+  final Dio retryClient;
 
   /// The token storage
   ///
@@ -86,12 +87,12 @@ class OAuthInterceptor extends QueuedInterceptor
 
   final AsyncCache<TokenPair?> _tokenCache = AsyncCache.ephemeral();
 
+  StreamSubscription<TokenPair?>? _storageSubscription;
+
   TokenPair? _tokenPair;
 
-  /// The current authentication status
   var _authenticationStatus = AuthenticationStatus.initial;
 
-  // ignore: close_sinks
   final _authController = BehaviorSubject.seeded(AuthenticationStatus.initial);
 
   /// Build the headers
@@ -123,10 +124,8 @@ class OAuthInterceptor extends QueuedInterceptor
   }
 
   @override
-  Stream<AuthenticationStatus> getAuthenticationStatusStream() async* {
-    yield _authenticationStatus;
-    yield* _authController.stream;
-  }
+  Stream<AuthenticationStatus> getAuthenticationStatusStream() =>
+      _authController.stream;
 
   /// Close the interceptor
   Future<void> close() async {
@@ -228,7 +227,7 @@ class OAuthInterceptor extends QueuedInterceptor
 
     try {
       // Refresh the token pair
-      newTokenPair = await refreshClient.refresh(refresh);
+      newTokenPair = await refreshClient.refreshTokenPair(refresh);
     } on RevokeTokenException {
       // Clear the token pair
       logger.info('Revoking token pair');
@@ -255,7 +254,7 @@ class OAuthInterceptor extends QueuedInterceptor
     Response<T> response,
     Map<String, String> headers,
   ) =>
-      _dio.request<T>(
+      retryClient.request<T>(
         response.requestOptions.path,
         cancelToken: response.requestOptions.cancelToken,
         data: response.requestOptions.data,
