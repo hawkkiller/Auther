@@ -1,4 +1,3 @@
-import 'package:async/async.dart';
 import 'package:sizzle_starter/src/feature/home/data/profile_datasource.dart';
 import 'package:sizzle_starter/src/feature/home/model/profile.dart';
 
@@ -15,12 +14,6 @@ final class ProfileRepositoryImpl implements ProfileRepository {
 
   final ProfileDataSource _dataSource;
 
-  final _cache = AsyncCache<Profile>(
-    const Duration(minutes: 5),
-  );
-
   @override
-  Future<Profile> fetchProfile() => _cache.fetch(
-        () => _dataSource.fetchProfile(),
-      );
+  Future<Profile> fetchProfile() => _dataSource.fetchProfile();
 }
