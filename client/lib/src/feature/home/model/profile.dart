@@ -1,18 +1,20 @@
-import 'package:freezed_annotation/freezed_annotation.dart';
+import 'package:meta/meta.dart';
 
-part 'profile.freezed.dart';
-part 'profile.g.dart';
+/// Profile
+@immutable
+final class Profile {
+  /// Creates an instance of Profile.
+  const Profile({
+    required this.username,
+    required this.email,
+  });
 
-/// Profile model.
-@freezed
-class Profile with _$Profile {
-  /// Default constructor.
-  const factory Profile({
-    required String email,
-    required String username,
-  }) = _Profile;
+  /// Username
+  final String username;
 
-  /// Creates a [Profile] from a JSON object.
-  factory Profile.fromJson(Map<String, dynamic> json) =>
-      _$ProfileFromJson(json);
+  /// Email
+  final String email;
+
+  @override
+  String toString() => 'Profile(username: $username, email: $email)';
 }

@@ -3,7 +3,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:sizzle_starter/src/core/localization/localization.dart';
 import 'package:sizzle_starter/src/feature/auth/widget/auth_scope.dart';
 import 'package:sizzle_starter/src/feature/home/bloc/profile_bloc.dart';
-import 'package:sizzle_starter/src/feature/initialization/model/dependencies.dart';
 import 'package:sizzle_starter/src/feature/initialization/widget/dependencies_scope.dart';
 
 /// {@template sample_page}
