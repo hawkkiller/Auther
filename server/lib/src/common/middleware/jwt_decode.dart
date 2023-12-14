@@ -12,6 +12,7 @@ Middleware $decodeJwt(JWTVerifier jwt) => (innerHandler) {
           return AppResponse.error(
             'Missing or malformed token',
             errorCode: ErrorCode.tokenMalformed,
+            statusCode: 401,
           );
         }
 
@@ -30,7 +31,8 @@ Middleware $decodeJwt(JWTVerifier jwt) => (innerHandler) {
             errorCode: ErrorCode.tokenExpired,
             statusCode: 401,
           );
-        } on Object catch (e) {
+        }
+        on Object catch (e) {
           return AppResponse.error(
             'Failed to decode token: $e',
             errorCode: ErrorCode.tokenMalformed,
