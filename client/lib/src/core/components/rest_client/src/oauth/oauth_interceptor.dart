@@ -8,6 +8,7 @@ import 'package:sizzle_starter/src/core/components/rest_client/rest_client.dart'
 import 'package:sizzle_starter/src/core/components/rest_client/src/oauth/refresh_client.dart';
 import 'package:sizzle_starter/src/core/utils/logger.dart';
 
+// coverage:ignore-start
 /// Throw this exception when refresh token fails
 class RevokeTokenException implements Exception {
   /// Create a [RevokeTokenException]
@@ -16,6 +17,7 @@ class RevokeTokenException implements Exception {
   @override
   String toString() => 'RevokedTokenException';
 }
+// coverage:ignore-end
 
 /// Build headers for the request
 typedef HeaderBuilder = Map<String, String> Function(TokenPair pair);
@@ -68,7 +70,7 @@ class OAuthInterceptor extends QueuedInterceptor
         );
 
     // Preload the token pair
-    getTokenPair().ignore();
+    getTokenPair().then(_updateAuthenticationStatus).ignore();
   }
 
   /// [Dio] client used to retry the request.
@@ -85,29 +87,20 @@ class OAuthInterceptor extends QueuedInterceptor
   /// pair when the request fails with a 401.
   final RefreshClient refreshClient;
 
+  /// Async cache that ensures that only one request is made to the storage
+  /// simultaneously.
   final AsyncCache<TokenPair?> _tokenCache = AsyncCache.ephemeral();
 
   StreamSubscription<TokenPair?>? _storageSubscription;
 
+  /// The current token pair
   TokenPair? _tokenPair;
 
+  /// The current authentication status
   var _authenticationStatus = AuthenticationStatus.initial;
 
+  /// The authentication status controller
   final _authController = BehaviorSubject.seeded(AuthenticationStatus.initial);
-
-  /// Build the headers
-  ///
-  /// This is used to build the headers for the request.
-  @visibleForTesting
-  @pragma('vm:prefer-inline')
-  Map<String, String> buildHeaders(TokenPair pair) => {
-        'Authorization': 'Bearer ${pair.accessToken}',
-      };
-
-  /// Check if the token pair should be refreshed
-  @visibleForTesting
-  @pragma('vm:prefer-inline')
-  bool shouldRefresh<T>(Response<T> response) => response.statusCode == 401;
 
   @override
   Future<TokenPair?> getTokenPair() {
@@ -115,23 +108,14 @@ class OAuthInterceptor extends QueuedInterceptor
       return Future.value(_tokenPair);
     }
 
-    return _tokenCache.fetch(() async {
-      final tokenPair = await storage.loadTokenPair();
-      _tokenPair = tokenPair;
-      _updateAuthenticationStatus(tokenPair);
-      return tokenPair;
-    });
+    return _tokenCache.fetch(
+      () async => _tokenPair = await storage.loadTokenPair(),
+    );
   }
 
   @override
   Stream<AuthenticationStatus> getAuthenticationStatusStream() =>
       _authController.stream;
-
-  /// Close the interceptor
-  Future<void> close() async {
-    await _storageSubscription?.cancel();
-    await _authController.close();
-  }
 
   /// Clear the token pair
   /// Invalidates cache and clears storage
@@ -142,21 +126,6 @@ class OAuthInterceptor extends QueuedInterceptor
   /// Invalidates cache and saves to storage
   @visibleForTesting
   Future<void> saveTokenPair(TokenPair pair) => storage.saveTokenPair(pair);
-
-  void _updateAuthenticationStatus(TokenPair? token) {
-    final oldStatus = _authenticationStatus;
-    if (token == null) {
-      _authenticationStatus = AuthenticationStatus.unauthenticated;
-    } else {
-      _authenticationStatus = AuthenticationStatus.authenticated;
-    }
-
-    _tokenPair = token;
-    if (oldStatus != _authenticationStatus) {
-      _tokenCache.invalidate();
-      _authController.add(_authenticationStatus);
-    }
-  }
 
   @override
   Future<void> onRequest(
@@ -222,12 +191,49 @@ class OAuthInterceptor extends QueuedInterceptor
     }
   }
 
+  // coverage:ignore-start
+  /// Close the interceptor
+  Future<void> close() async {
+    await _storageSubscription?.cancel();
+    await _authController.close();
+  }
+  // coverage:ignore-end
+
+  /// Build the headers
+  ///
+  /// This is used to build the headers for the request.
+  @visibleForTesting
+  @pragma('vm:prefer-inline')
+  Map<String, String> buildHeaders(TokenPair pair) => {
+        'Authorization': 'Bearer ${pair.accessToken}',
+      };
+
+  /// Check if the token pair should be refreshed
+  @visibleForTesting
+  @pragma('vm:prefer-inline')
+  bool shouldRefresh<T>(Response<T> response) => response.statusCode == 401;
+
+  /// Update the authentication status based on the token pair
+  void _updateAuthenticationStatus(TokenPair? token) {
+    final oldStatus = _authenticationStatus;
+    if (token == null) {
+      _authenticationStatus = AuthenticationStatus.unauthenticated;
+    } else {
+      _authenticationStatus = AuthenticationStatus.authenticated;
+    }
+
+    _tokenPair = token;
+    if (oldStatus != _authenticationStatus) {
+      _authController.add(_authenticationStatus);
+    }
+  }
+
   Future<Response<T>> _refresh<T>(Response<T> response, String refresh) async {
     final TokenPair newTokenPair;
 
     try {
       // Refresh the token pair
-      newTokenPair = await refreshClient.refreshTokenPair(refresh);
+      newTokenPair = await refreshClient.refreshToken(refresh);
     } on RevokeTokenException {
       // Clear the token pair
       logger.info('Revoking token pair');

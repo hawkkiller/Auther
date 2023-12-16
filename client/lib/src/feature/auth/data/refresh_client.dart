@@ -11,7 +11,7 @@ final class RefreshClientImpl implements RefreshClient {
   RefreshClientImpl({required this.client});
 
   @override
-  Future<TokenPair> refreshTokenPair(String refreshToken) async {
+  Future<TokenPair> refreshToken(String refreshToken) async {
     final response = await client.get<Map<String, Object?>>(
       '/api/v1/auth/refresh',
       queryParameters: {'refreshToken': refreshToken},
@@ -19,8 +19,10 @@ final class RefreshClientImpl implements RefreshClient {
 
     if (response.data
         case {
-          'accessToken': final String accessToken,
-          'refreshToken': final String refreshToken
+          'data': {
+            'accessToken': final String accessToken,
+            'refreshToken': final String refreshToken
+          }
         }) {
       return (
         accessToken: accessToken,

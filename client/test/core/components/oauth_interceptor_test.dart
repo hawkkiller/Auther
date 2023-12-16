@@ -195,7 +195,7 @@ void main() {
 
         final handler = MockResponseInterceptorHandler();
 
-        when(() => refreshClient.refreshTokenPair(any())).thenThrow(
+        when(() => refreshClient.refreshToken(any())).thenThrow(
           Exception('Test Error'),
         );
 
@@ -240,7 +240,7 @@ void main() {
 
         final handler = MockResponseInterceptorHandler();
 
-        when(() => refreshClient.refreshTokenPair(any())).thenAnswer(
+        when(() => refreshClient.refreshToken(any())).thenAnswer(
           (_) => Future.value(mockTokenPair),
         );
 
